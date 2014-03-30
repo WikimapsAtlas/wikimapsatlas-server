@@ -1,4 +1,4 @@
-make-data
+make-data-json
 =========
 
-Makefiles and processed GIS data for Wikimaps Atlas
+Makefiles to process GIS data to json/topojson for Wikimaps Atlas
