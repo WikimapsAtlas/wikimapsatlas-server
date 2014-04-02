@@ -2,7 +2,8 @@
 
 all: maps.yaml
 
-	#./create_tables.sh
-	./load_data.sh
+	./create_tables.sh
+	#./shp_psql.sh
+	#./psql_shp.sh
 
 

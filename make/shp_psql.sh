@@ -18,12 +18,12 @@ NATURALEARTH=$DATA_PATH/natural_earth_vector	# Unzipped folder
 
 while read layer
 do
-echo "Processing $NATURALEARTH$layer"
+echo "Processing $NATURALEARTH$/110m_cultural/$layer"
 echo "Generating SQL"
-shp2pgsql -s 4326 -W LATIN1 -d $NATURALEARTH$layer.shp $layer ne > $NATURALEARTH$layer.sql
+shp2pgsql -s 4326 -W LATIN1 -d $NATURALEARTH$layer.shp $layer ne > $NATURALEARTH$layer.sql | psql $USER -h $HOST –p $PORT -d ne -f $NATURALEARTH$layer.sql
 
 echo "Writing to postgres database: ne"
-psql $USER -d ne -h $HOST –p $PORT  -f $NATURALEARTH$layer.sql
+
 
 done < layers_ne.txt
 
