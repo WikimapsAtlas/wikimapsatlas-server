@@ -2,7 +2,7 @@
 
 all: maps.yaml
 
-	./create_tables.sh
+	./make-atlas.py
 	#./shp_psql.sh
 	#./psql_shp.sh
 

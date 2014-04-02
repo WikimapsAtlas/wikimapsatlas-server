@@ -4,5 +4,6 @@ all: maps.yaml
 
 	./create_tables.sh
 	#./shp_psql.sh
+	#./psql_shp.sh
 
 

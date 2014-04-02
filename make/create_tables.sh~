@@ -4,7 +4,6 @@
 psql -U postgres -c "drop database atlas;"
 psql -U postgres -c "create database atlas;"
 psql -U postgres atlas -f create_atlas.sql
-psql -U postgres -c "COPY admin0 (name) FROM 'admin0_names.txt';"
 
 # Create wikimaps data db
 #psql -U postgres -c "create database ne;"
