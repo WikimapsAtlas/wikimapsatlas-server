@@ -1,9 +1,10 @@
 #!/usr/bin/env python
+# coding: utf-8
 #Makes wikimaps atlas database
 
 # Database settings
 host = "localhost"
-port = 5432
+port = "5432"
 user = "postgres"
 
 # Install dependencies: sudo easy_install psycopg2 pyyaml
@@ -28,6 +29,7 @@ def atlas_create():
 #atlas_create()
 
 def data_create():
+    "Create data databases"
     
     with open('atlas-data.yaml', 'r') as f:
         "Load atlas data configuration"
@@ -37,6 +39,9 @@ def data_create():
         for layer in datasource["layer"]:
             path = atlas_data["path"]+datasource["path"]+layer["path"]
             print path
+            
+            query = "shp2pgsql -s 4326 -W LATIN1 -d "+path+" "+layer["table"]+" "+datasource["database"]+" > temp.sql | psql "+user+" -h "+host+" –p "+port+" -d "+datasource["database"]+" -f temp.sql"
+            print query
             
                 
            

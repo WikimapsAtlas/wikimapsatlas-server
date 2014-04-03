@@ -1,5 +1,5 @@
 # Data source configuration for Wikimaps Atlas
-# v0.1 Arun Ganesh
+# v0.2
 
 path: ~/Documents/GIS/data
 datasource:
