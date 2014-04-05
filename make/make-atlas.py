@@ -12,6 +12,12 @@ import subprocess	# for making system calls
 import psycopg2     # for communicating with postgres 
 import yaml         # for reading yaml config file
 
+def create_database(name):
+    "Drop and create a new database"
+    subprocess.call("psql -U postgres -c \"drop database "+name+";\"", shell=True)
+    subprocess.call("psql -U postgres -c \"create database "+name+";\"", shell=True)
+    return
+    
 def atlas_create():
     "Creates fresh databases"
     
@@ -20,16 +26,15 @@ def atlas_create():
     subprocess.call("psql -U postgres -c \"create database atlas;\"", shell=True)
 
     # Create datasource db
-    subprocess.call("psql -U postgres -c \"drop database ne;\"", shell=True)
-    subprocess.call("psql -U postgres -c \"create database ne;\"", shell=True)
+    subprocess.call("psql -U postgres -c \"drop database naturalearth;\"", shell=True)
+    subprocess.call("psql -U postgres -c \"create database naturalearth;\"", shell=True)
     subprocess.call("psql -U postgres -d ne -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql", shell=True)
     subprocess.call("psql -U postgres -d ne -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql", shell=True)
     return
+atlas_create()
 
-#atlas_create()
-
-def data_create():
-    "Create data databases"
+def load_data(refresh):
+    "Load GIS data from files to databases"
     
     with open('atlas-data.yaml', 'r') as f:
         "Load atlas data configuration"
@@ -41,14 +46,11 @@ def data_create():
             print path
             
             query = "shp2pgsql -s 4326 -W LATIN1 -d "+path+" "+layer["table"]+" "+datasource["database"]+" > temp.sql | psql "+user+" -h "+host+" –p "+port+" -d "+datasource["database"]+" -f temp.sql"
+            subprocess.call(query, shell=True)
             print query
-            
-                
-           
-            
-    
-    
-data_create()
+    return
+                    
+load_data(1)
 
 # Connect to atlas
 atlas = psycopg2.connect("dbname=atlas user=postgres")
@@ -78,7 +80,7 @@ ne = psycopg2.connect("dbname=atlas user=postgres")
 ne_cur = atlas.cursor()
 
 atlas_cur.execute("SELECT * from adm0;")
-print atlas_cur.fetchall()
+print ne_cur.fetchall()
 
 atlas_cur.close
 atlas.close
