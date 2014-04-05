@@ -6,52 +6,73 @@
 host = "localhost"
 port = "5432"
 user = "postgres"
+psql_user = "psql -U " + user
+
+
 
 # Install dependencies: sudo easy_install psycopg2 pyyaml
 import subprocess	# for making system calls
 import psycopg2     # for communicating with postgres 
 import yaml         # for reading yaml config file
 
-def create_database(name):
-    "Drop and create a new database"
-    subprocess.call("psql -U postgres -c \"drop database "+name+";\"", shell=True)
-    subprocess.call("psql -U postgres -c \"create database "+name+";\"", shell=True)
+def bash(command):
+    "Runs shell command"
+    subprocess.call(command, shell=True)
+    return
+
+
+def psql_command(command):
+    "Runs a postgres command in the shell"
+    psql_command = psql_user + " -c \""+command+";\""
+    bash(psql_command)
     return
     
-def atlas_create():
-    "Creates fresh databases"
     
-    # Create atlas db
-    subprocess.call("psql -U postgres -c \"drop database atlas;\"", shell=True)
-    subprocess.call("psql -U postgres -c \"create database atlas;\"", shell=True)
-
-    # Create datasource db
-    subprocess.call("psql -U postgres -c \"drop database naturalearth;\"", shell=True)
-    subprocess.call("psql -U postgres -c \"create database naturalearth;\"", shell=True)
-    subprocess.call("psql -U postgres -d ne -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql", shell=True)
-    subprocess.call("psql -U postgres -d ne -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql", shell=True)
+def create_database(name):
+    "Drop and create a new database"
+    psql_command("drop database "+name)
+    psql_command("create database "+name)
+    return
+    
+    
+def atlas_create():
+    "Creates fresh wikimaps database"
+    with open('db/layers.yaml', 'r') as f:
+        "Load atlas data configuration"
+        atlas_data = yaml.load(f)
+    
+    # Create a fresh Wikimaps Atlas spatial database
+    for datasource in atlas_data["datasource"]:
+        for layer in datasource["layer"]:
+            create_database(datasource["database"])
+            # Add PostGIS extensions
+            bash(psql_user+" -d "+datasource["database"]+" -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql")
+            bash(psql_user+" -d "+datasource["database"]+" -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql")     
     return
 atlas_create()
 
-def load_data(refresh):
-    "Load GIS data from files to databases"
+
+def load_map_data():
+    "Load GIS data into database"
     
-    with open('atlas-data.yaml', 'r') as f:
+    with open('db/layers.yaml', 'r') as f:
         "Load atlas data configuration"
         atlas_data = yaml.load(f)
-        
+    
+     # Load Atlas db
     for datasource in atlas_data["datasource"]:
         for layer in datasource["layer"]:
-            path = atlas_data["path"]+datasource["path"]+layer["path"]
-            print path
-            
+            path = atlas_data["datapath"]+datasource["path"]+layer["path"]
             query = "shp2pgsql -s 4326 -W LATIN1 -d "+path+" "+layer["table"]+" "+datasource["database"]+" > temp.sql | psql "+user+" -h "+host+" –p "+port+" -d "+datasource["database"]+" -f temp.sql"
-            subprocess.call(query, shell=True)
+            bash(query)
             print query
     return
                     
-load_data(1)
+load_map_data()
 
+def build_atlas():
+    "Builds the atlas database
+    
 # Connect to atlas
 atlas = psycopg2.connect("dbname=atlas user=postgres")
 atlas_cur = atlas.cursor()
@@ -69,7 +90,7 @@ CREATE TABLE adm0 (
 """)
 
 ## Load list of country names to atlas.adm0
-adm0_names= open("adm0_names.txt")
+adm0_names= open("atlas_db/adm0_names.txt")
 atlas_cur.copy_from(adm0_names, 'adm0', columns=("name",))
 atlas.commit()
 adm0_names.close()
