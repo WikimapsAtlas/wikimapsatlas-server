@@ -9,7 +9,6 @@ user = "postgres"
 psql_user = "psql -U " + user
 
 
-
 # Install dependencies: sudo easy_install psycopg2 pyyaml
 import subprocess	# for making system calls
 import psycopg2     # for communicating with postgres 
@@ -26,6 +25,12 @@ def psql_command(command):
     psql_command = psql_user + " -c \""+command+";\""
     bash(psql_command)
     return
+
+def psql_sql(sql_file):
+    "Runs a postgres SQL file"
+    psql_sql = psql_user + " -d wikimaps_atlas -f "+sql_file
+    bash(psql_sql)
+    return
     
     
 def create_database(name):
@@ -35,22 +40,18 @@ def create_database(name):
     return
     
     
-def atlas_create():
+def create_atlas():
     "Creates fresh wikimaps database"
     with open('db/layers.yaml', 'r') as f:
         "Load atlas data configuration"
-        atlas_data = yaml.load(f)
-    
-    # Create a fresh Wikimaps Atlas spatial database
-    for datasource in atlas_data["datasource"]:
-        for layer in datasource["layer"]:
-            create_database(datasource["database"])
-            # Add PostGIS extensions
-            bash(psql_user+" -d "+datasource["database"]+" -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql")
-            bash(psql_user+" -d "+datasource["database"]+" -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql")     
-    return
-atlas_create()
-
+        atlas_data = yaml.load(f) 
+        wikimaps_atlas = atlas_data["database_name"]
+        
+    create_database(wikimaps_atlas)  
+    # Add PostGIS extensions
+    psql_sql("/usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql")
+    psql_sql("/usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql")
+    return wikimaps_atlas
 
 def load_map_data():
     "Load GIS data into database"
@@ -63,50 +64,53 @@ def load_map_data():
     for datasource in atlas_data["datasource"]:
         for layer in datasource["layer"]:
             path = atlas_data["datapath"]+datasource["path"]+layer["path"]
-            query = "shp2pgsql -s 4326 -W LATIN1 -d "+path+" "+layer["table"]+" "+datasource["database"]+" > temp.sql | psql "+user+" -h "+host+" –p "+port+" -d "+datasource["database"]+" -f temp.sql"
+            query = "shp2pgsql -s 4326 -W LATIN1 -d "+path+" "+layer["table_name"]+" "+wikimaps_atlas+" > temp.sql | psql "+user+" -h "+host+" –p "+port+" -d "+wikimaps_atlas+" -f temp.sql"
             bash(query)
             print query
     return
                     
-load_map_data()
 
 def build_atlas():
-    "Builds the atlas database
-    
-# Connect to atlas
-atlas = psycopg2.connect("dbname=atlas user=postgres")
-atlas_cur = atlas.cursor()
+    "Builds the atlas database"
+    with open('db/layers.yaml', 'r') as f:
+        "Load atlas data configuration"
+        atlas_data = yaml.load(f) 
+            
+    # Connect to atlas
+    atlas = psycopg2.connect("dbname=wikimaps_atlas user=postgres")
+    atlas_cur = atlas.cursor()
 
-## Create atlas.adm0
-atlas_cur.execute("""
-CREATE TABLE adm0 (
-    name varchar(80) NOT NULL,	-- country name
-    start_date date,		-- date of formation
-    end_date date,          
-    next_name varchar(80),       
-    previous_name varchar(80),
-    wikidata_item varchar(16)	-- wikidata item code http://wikidata.org
-);
-""")
+    ## Create atlas.adm0
+    atlas_cur.execute("""
+    CREATE TABLE adm0 (
+        name varchar(80) NOT NULL,	-- country name
+        start_date date,		-- date of formation
+        end_date date,          
+        next_name varchar(80),       
+        previous_name varchar(80),
+        wikidata_item varchar(16)	-- wikidata item code http://wikidata.org
+    );
+    """)
 
-## Load list of country names to atlas.adm0
-adm0_names= open("atlas_db/adm0_names.txt")
-atlas_cur.copy_from(adm0_names, 'adm0', columns=("name",))
-atlas.commit()
-adm0_names.close()
+    ## Load list of country names to atlas.adm0
+    adm0_names= open("db/adm0_names.txt")
+    atlas_cur.copy_from(adm0_names, 'adm0', columns=("name",))
+    atlas.commit()
+    adm0_names.close()
 
-## Join attributes from naturalearthdata shapefiles
-### Connect to ne db
-ne = psycopg2.connect("dbname=atlas user=postgres")
-ne_cur = atlas.cursor()
+    ## Join attributes from naturalearthdata shapefiles
+    ### Connect to ne db
+    ne = psycopg2.connect("dbname=atlas user=postgres")
+    ne_cur = atlas.cursor()
 
-atlas_cur.execute("SELECT * from adm0;")
-print ne_cur.fetchall()
+    atlas_cur.execute("SELECT * from adm0;")
+    print ne_cur.fetchall()
 
-atlas_cur.close
-atlas.close
+    atlas_cur.close
+    atlas.close
 
-
-#./create_tables.sh
-
-
+def main():
+    wikimaps_atlas = create_atlas()
+    #load_map_data()
+    return
+main()
