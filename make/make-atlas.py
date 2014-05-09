@@ -13,6 +13,7 @@ psycopg_connect_atlas= "dbname="+atlas_db+" user="+user
 # Install dependencies: sudo easy_install psycopg2 pyyaml
 import subprocess	# for making system calls
 import psycopg2     # for communicating with postgres 
+import psycopg2.extras
 import yaml         # for reading yaml config file
 
 def bash(command):
@@ -74,16 +75,40 @@ def create_atlas_tables():
 
     ## Create atlas.master
     atlas_cur.execute("""
-    DROP TABLE master;
-    CREATE TABLE master(
-        name varchar(20), 
-        scale varchar(20), 
-        data_table varchar(30), 
-        data_key varchar(30),
-        shape_table varchar(30), 
-        shape_key varchar(30)
+    DROP TABLE atlas_join;
+    CREATE TABLE atlas_join(
+        id varchar(10), 
+        name varchar(30), 
+        data_table varchar(30),
+        shape_table varchar(30)
+    );
+     DROP TABLE atlas_type;
+    CREATE TABLE atlas_type(
+        id varchar(10), 
+        name varchar(50), 
+        data_table varchar(30),
+        shape_table varchar(30)
     );
     """)
+    atlas.commit()
+    
+    atlas_cur.execute("""
+    INSERT INTO atlas_join
+        (id, name, data_table, shape_table)
+    VALUES (
+        'adm0-a',
+        'Admin Level 0 Boundaries',
+        'adm0.name',
+        'adm0_area.admin'
+    ),
+    (
+        'adm1-a',
+        'Admin Level 1 Boundaries',
+        'adm1.name',
+        'adm1_area.admin'
+    );    
+    """)
+    atlas.commit()
     
     ## Create atlas.adm0
     atlas_cur.execute("""
@@ -100,9 +125,9 @@ def create_atlas_tables():
         wikidata_id varchar(16)	-- wikidata item code http://wikidata.org
     );
     """)
+    atlas.commit()
     
     atlas_cur.close()
-    atlas.commit()
     atlas.close()
     return
     
@@ -118,22 +143,53 @@ def build_atlas():
     atlas_cur.copy_from(adm0_names, 'adm0', columns=("name",))
     atlas.commit()
     adm0_names.close()
-
-    # Join values from shapefiles
-    atlas_cur.execute("""
-    UPDATE adm0
-    INNER JOIN wikimaps_atlas.ne_adm0_polygon_l AS ne
-    ON adm0.id = ne.iso_n3;
-    """)
-    atlas.commit()
     
     atlas_cur.close
     atlas.close
+    return
+
+
+def export_atlas():
+    "Output atlas data files and makefiles"
+    
+    with open('db/export.yaml', 'r') as f:
+        "Load atlas export configuration"
+        export_config = yaml.load(f)
+    
+    export_folder(export_config,export_config["path"])
+    return
+    
+
+def export_folder(folder_config,path):
+    "Export a folder with relevant json files"
+ 
+    # Connect to atlas
+    atlas = psycopg2.connect(psycopg_connect_atlas)
+    atlas_cur = atlas.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    
+    ## Load list of country names to atlas.adm0
+    atlas_cur.execute("SELECT name from adm0;")
+    records = atlas_cur.fetchall()
+    atlas.close()
+    
+    #Create directory
+    print records
+    
+    # Recursively generate subfolders
+    try:
+        for i in folder_config["folder"]:
+            print "Generating folder: ",i["name"],"\n"
+            if i.has_key("folder"):
+                export_folder(i,path)
+    except KeyError:
+        return
+    
 
 def main():
     #create_atlas()
     #load_map_data()
     create_atlas_tables()
     build_atlas()
+    export_atlas()
     return
 main()

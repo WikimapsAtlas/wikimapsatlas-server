@@ -9,3 +9,9 @@ Makefiles to process GIS data to json/topojson for Wikimaps Atlas.
 * Load GIS data shapefiles into database 
 * Run spatial queries on database to generate new shapefiles
 * Optimize shapefiles as topojson
+
+# Dependencies
+
+```
+sudo apt-get install python-psycopg2
+```
