@@ -2,6 +2,8 @@
 # coding: utf-8
 #Makes wikimaps atlas database
 
+# Workflow
+
 # Database settings
 host = "localhost"
 port = "5432"
@@ -9,6 +11,7 @@ user = "postgres"
 psql_user = "psql -U " + user
 atlas_db = "wikimaps_atlas" # Default database name
 psycopg_connect_atlas= "dbname="+atlas_db+" user="+user
+atlas_connect_ogr2ogr= "'host="+host+" user="+user+" dbname=wikimaps_atlas'"
 
 # Install dependencies: sudo easy_install psycopg2 pyyaml
 import subprocess	# for making system calls
@@ -18,6 +21,7 @@ import yaml         # for reading yaml config file
 
 def bash(command):
     "Runs shell command"
+    print "bash: ",command
     subprocess.call(command, shell=True)
     return
 
@@ -156,7 +160,7 @@ def export_atlas():
         "Load atlas export configuration"
         export_config = yaml.load(f)
     
-    export_folder(export_config,export_config["path"])
+    export_folder(export_config,export_config["base_path"])
     return
     
 
@@ -169,16 +173,22 @@ def export_folder(folder_config,path):
     
     ## Load list of country names to atlas.adm0
     atlas_cur.execute("SELECT name from adm0;")
-    records = atlas_cur.fetchall()
+    countries = atlas_cur.fetchall()
     atlas.close()
     
-    #Create directory
-    print records
+    # Create folder
+    adm0_names= open("db/adm0_iso_a3.txt")
+    for i in adm0_names:
+        j=i.rstrip('\n')
+        bash("ogr2ogr -f 'GeoJSON' "+path+j+".adm0.geojson PG:"+atlas_connect_ogr2ogr+" -sql \"select * from adm0_area where iso_a3='"+j+"'\"")
+        bash("ogr2ogr -f 'GeoJSON' "+path+j+".adm1.geojson PG:"+atlas_connect_ogr2ogr+" -sql \"select * from adm1_area where sr_adm0_a3='"+j+"'\"")
+        
+    
     
     # Recursively generate subfolders
     try:
         for i in folder_config["folder"]:
-            print "Generating folder: ",i["name"],"\n"
+            print "Generating folder: ",i["map_location"],"\n"
             if i.has_key("folder"):
                 export_folder(i,path)
     except KeyError:
