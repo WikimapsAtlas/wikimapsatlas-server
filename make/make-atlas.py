@@ -179,12 +179,23 @@ def export_folder(folder_config,path):
     # Create folder
     adm0_names= open("db/adm0_iso_a3.txt")
     for i in adm0_names:
-        j=i.rstrip('\n')
-        bash("ogr2ogr -f 'GeoJSON' "+path+j+".adm0.geojson PG:"+atlas_connect_ogr2ogr+" -sql \"select * from adm0_area where iso_a3='"+j+"'\"")
-        bash("ogr2ogr -f 'GeoJSON' "+path+j+".adm1.geojson PG:"+atlas_connect_ogr2ogr+" -sql \"select * from adm1_area where sr_adm0_a3='"+j+"'\"")
+        iso_a3=i.rstrip('\n')
         
-    
-    
+        # Generate country outline
+        #bash("ogr2ogr -f 'GeoJSON' "+path+iso_a3+".adm0.geojson PG:"+atlas_connect_ogr2ogr+" -sql \"select * from adm0_area where iso_a3='"+iso_a3+"'\"")
+        # Covert to topojson
+        #bash("topojson -o ../../wikimapsatlas.github.io/atlas/"+iso_a3+".adm0.topojson "+path+iso_a3+".adm0.geojson")
+        
+        # Generate admin1 units per country
+        bash("ogr2ogr -f 'GeoJSON' "+path+iso_a3+".adm1.geojson PG:"+atlas_connect_ogr2ogr+" -sql \"select * from adm1_area where sr_adm0_a3='"+iso_a3+"'\"")
+        
+        # Covert geojson to topojson and move to atlas website repo
+        # See https://github.com/mbostock/topojson/wiki/Command-Line-Reference
+        # Admin1 properties
+        properties = "-p name,adm1_code,scalerank,admin,type_en,code_hasc,provnum_ne"
+        bash("topojson -o ../../wikimapsatlas.github.io/atlas/"+iso_a3+".adm1.topojson "+path+iso_a3+".adm1.geojson "+properties)
+        
+        
     # Recursively generate subfolders
     try:
         for i in folder_config["folder"]:
