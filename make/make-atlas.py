@@ -191,9 +191,16 @@ def export_folder(folder_config,path):
         
         # Covert geojson to topojson and move to atlas website repo
         # See https://github.com/mbostock/topojson/wiki/Command-Line-Reference
-        # Admin1 properties
-        properties = "-p name,adm1_code,scalerank,admin,type_en,code_hasc,provnum_ne"
-        bash("topojson -o ../../wikimapsatlas.github.io/atlas/"+iso_a3+".adm1.topojson "+path+iso_a3+".adm1.geojson "+properties)
+        # Natural Earth Admin1 properties
+        # id : Unique id used to reference the shape from the database. In the format "iso_a2-shape_number"
+        # name : International name in Latin alphabet
+        # hasc : Heirarchial Administrative Subdivision Code used for building spatial relationships with parent and child regions
+        # type_en : Word describing the type of the feature
+        # scalerank : Integer denoting the relative importance of the feature. 1 is the highest importance on a global level
+        # note : Free text that is displayed as a footnote
+        simplify = "--quantization 1e4 --simplify 0.00000001"
+        properties = "--id-property adm1_code -p name,scalerank,admin,type_en,hasc=code_hasc,provnum_ne,note "
+        bash("topojson -o ../../wikimapsatlas.github.io/atlas/"+iso_a3+".adm1.topojson "+path+iso_a3+".adm1.geojson "+properties+simplify)
         
         
     # Recursively generate subfolders
