@@ -8,6 +8,7 @@
 host = "localhost"
 port = "5432"
 user = "postgres"
+password = ""
 psql_user = "psql -U " + user
 atlas_db = "wikimaps_atlas" # Default database name
 psycopg_connect_atlas= "dbname="+atlas_db+" user="+user
