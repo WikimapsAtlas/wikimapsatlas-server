@@ -1,0 +1,3 @@
+[submodule "postgis2geojson"]
+	path = postgis2geojson
+	url = https://github.com/jczaplew/postgis2geojson.git
