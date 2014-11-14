@@ -18,15 +18,6 @@
 # DEPENDENCIES
 #sudo pip install flask
 # pip install -U psycopg2
-# Database settings
-host = "localhost"
-port = "5432"
-user = "postgres"
-password = ""
-psql_user = "psql -U " + user
-atlas_db = "wikimaps_atlas" # Default database name
-psycopg_connect_atlas= "dbname="+atlas_db+" user="+user
-atlas_connect_ogr2ogr= "'host="+host+" user="+user+" dbname=wikimaps_atlas'"
 
 # Install dependencies: sudo easy_install psycopg2 pyyaml
 import subprocess	# for making system calls
@@ -34,6 +25,21 @@ import psycopg2     # for communicating with postgres
 import psycopg2.extras
 import yaml         # for reading yaml config file
 import json
+
+
+# Local settings
+import local_settings
+host = local_settings.host
+port = local_settings.port
+user = local_settings.user
+password = local_settings.password
+
+# Useful variables
+psql_user = "psql -U " + user
+atlas_db = "wikimaps_atlas" # Default database name
+psycopg_connect_atlas= "dbname="+atlas_db+" user="+user
+atlas_connect_ogr2ogr= "'host="+host+" user="+user+" dbname=wikimaps_atlas'"
+
 
 def bash(command):
     "Runs shell command"
@@ -110,12 +116,12 @@ def generate_topojson(adm_area):
 
     ## If adm_area is a hasc code, lookup the adm1 table
     if "." in adm_area :
-        atlas_cur.execute("SELECT ST_AsTopoJSON(the_geom) FROM adm1_area WHERE name LIKE '"+ adm_area +"' OR code_hasc LIKE '"+ adm_area +"';")
+        atlas_cur.execute("SELECT ST_AsGeoJson(the_geom) FROM adm1_area WHERE name LIKE '"+ adm_area +"' OR code_hasc LIKE '"+ adm_area +"';")
     else:
-        atlas_cur.execute("SELECT ST_Box2D(the_geom) FROM adm0_area WHERE sovereignt LIKE '"+ adm_area +"' OR iso_a2 LIKE '"+ adm_area +"';")
+        atlas_cur.execute("SELECT ST_AsGeoJson(the_geom) FROM adm0_area WHERE sovereignt LIKE '"+ adm_area +"' OR iso_a2 LIKE '"+ adm_area +"';")
     countries = atlas_cur.fetchall()
     atlas.close()
-    return json.dumps(adm_area)
+    return json.dumps(countries)
 
 # 404 Error handler
 @app.errorhandler(404)
