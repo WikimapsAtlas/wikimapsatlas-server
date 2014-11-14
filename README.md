@@ -10,6 +10,20 @@ Makefiles to process GIS data to json/topojson for Wikimaps Atlas.
 * Run spatial queries on database to generate new shapefiles
 * Optimize shapefiles as topojson
 
+# Server Requirements
+
+* Postgres 9.3 with PostGIS
+* Python 2.7
+
+# Installation
+
+* Clone this repository 
+* Initialize and update the submodules
+```
+git submodule init
+git submodule update
+```
+
 # Dependencies
 
 ```
