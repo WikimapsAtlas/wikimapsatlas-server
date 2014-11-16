@@ -16,6 +16,7 @@ import psycopg2.extras
 import yaml         # for reading yaml config file
 import json
 import textwrap
+import os.path
 
 from flask import Flask, jsonify, make_response
 from flask.ext.restful import Resource, Api
@@ -129,9 +130,22 @@ def generate_geojson(adm_area):
 # Return topojson data of requested area
 @app.route('/api/v1/topojson/<path:adm_area>', methods=['GET'])
 def generate_topojson(adm_area):
-    bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -t adm0_area -u postgres -g the_geom --topojson")
-    with open('data.geojson', 'r') as f:
-        return json.dumps(json.load(f))
+    file_name = "test"
+    file_dir = "../data/"
+    file_path = file_dir + file_name
+    target_file = file_path+".topojson"
+    
+    # If target file does not exist
+    if not os.path.exists(target_file):
+        # Generate it
+        bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -t adm0_area -u postgres -g the_geom --topojson -o "+ file_path)
+    
+    # Read generated file
+    with open(target_file, 'r') as f:
+        try:
+            return json.dumps(json.load(f))
+        finally:
+            f.close()
 
 # 404 Error handler
 @app.errorhandler(404)
