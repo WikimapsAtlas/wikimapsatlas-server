@@ -131,13 +131,18 @@ def generate_geojson(adm_area):
 @app.route('/api/v1/topojson/<path:adm_area>', methods=['GET'])
 def generate_topojson(adm_area):
     file_name = "test"
-    file_dir = "../data/"
+    file_dir = "../data/t/"
     file_path = file_dir + file_name
     target_file = file_path+".topojson"
-    
+        
     # If target file does not exist
     if not os.path.exists(target_file):
-        # Generate it
+        # Create a new directory if it does not exist
+        if not os.path.exists(file_dir):
+            os.makedirs(file_dir)
+            
+        # Generate it from the wikimaps_atlas database
+        # using https://github.com/jczaplew/postgis2geojson
         bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -t adm0_area -u postgres -g the_geom --topojson -o "+ file_path)
     
     # Read generated file
