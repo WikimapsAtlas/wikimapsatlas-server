@@ -139,7 +139,7 @@ class Hasc:
         self.data_dir = code.replace(".","/")+"/"
 
         # Calculate admin level of the requested area 
-        self.adm_level = self.data_dir.count("/")
+        self.adm_level = self.code.count(".")
         
         # Set the relevant shape table for the area
         self.adm_area_table = "adm" + str(self.adm_level) + "_area"
@@ -149,19 +149,19 @@ class Hasc:
         
         # Construct file paths
         file_name = "adm" + str(self.adm_level)     # adm0 | adm1
-        file_dir = "../data/" + self.data_dir       # ../data/IND/MD/
-        file_path = file_dir + file_name            # ../data/IND/MD/adm0
-        target_file = file_path+".topojson"         # ../data/IND/MD/adm0.topojson
+        file_dir = "../data/" + self.data_dir       # ../data/IN/MD/
+        file_path = file_dir + file_name            # ../data/IN/MD/adm2
+        target_file = file_path+".topojson"         # ../data/IN/MD/adm2.topojson
 
         # If target file does not exist
         if not os.path.exists(target_file):
+            
             # Create a new directory if it does not exist
             if not os.path.exists(file_dir):
                 os.makedirs(file_dir)
-
-            # Generate it from the wikimaps_atlas database
-            # using https://github.com/jczaplew/postgis2geojson
-            postgis2geojson("-t adm0_area -o "+ file_path)
+                
+            # Now generate the files
+            postgis2geojson(self.adm_area_table,file_path,"-w \"iso_a2 LIKE '"+self.code+"'\"" )
 
         # Read generated file
         with open(target_file, 'r') as f:
@@ -171,8 +171,9 @@ class Hasc:
                 f.close()
                 
 # Run a postgis2geojson command
-def postgis2geojson(options):
-    bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -u postgres -g the_geom --topojson "+options)
+# using https://github.com/jczaplew/postgis2geojson
+def postgis2geojson(table,output,options=""):
+    bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -u postgres -g the_geom --topojson -t "+table+" -o "+output+" "+options)
     
 # Return topojson data of requested area
 @app.route('/api/v1/topojson/<hasc_code>', methods=['GET'])

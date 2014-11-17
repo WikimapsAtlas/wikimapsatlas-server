@@ -1,7 +1,7 @@
 # Wikimaps Atlas Database MAKE - Data>PostGIS>SHP
 
 all: maps.yaml
-	./make-atlas.py
+	./create_atlas.py
 	#./shp_psql.sh
 	#./psql_shp.sh
 
