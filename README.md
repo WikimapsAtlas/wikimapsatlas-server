@@ -12,7 +12,7 @@ Makefiles to process GIS data to json/topojson for Wikimaps Atlas.
 
 # Server Requirements
 
-* Postgres 9.3 with PostGIS
+* Postgres 9.3 with PostGIS 1.5
 * Python 2.7
 
 # Installation

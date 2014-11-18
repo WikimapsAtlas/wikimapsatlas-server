@@ -25,11 +25,11 @@ app = Flask(__name__)
 api = Api(app)
 
 # Local settings
-import local_settings
-host = local_settings.host
-port = local_settings.port
-user = local_settings.user
-password = local_settings.password
+import settings
+host = settings.host
+port = settings.port
+user = settings.user
+password = settings.password
 
 # Useful variables
 psql_user = "psql -U " + user
