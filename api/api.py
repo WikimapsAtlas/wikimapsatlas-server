@@ -6,8 +6,7 @@
 # http://blog.luisrei.com/articles/flaskrest.html
 
 # DEPENDENCIES
-#sudo pip install flask flask-restful
-# pip install -U psycopg2
+# pip install -U psycopg2 flask flask-restful pyyaml
 
 from local import *
 from models import Hasc
