@@ -65,4 +65,4 @@ class Datasource:
         
     def unzip(self):
         """Unpack the source"""
-        bash("gzip")
+        bash("unzip "+self.filepath+" -d "+self.dir)
