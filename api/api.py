@@ -8,7 +8,7 @@
 # DEPENDENCIES
 # pip install -U psycopg2 flask flask-restful pyyaml
 
-from local import *
+from utilities import *
 from models import Hasc
 
 from flask import Flask, jsonify, make_response
