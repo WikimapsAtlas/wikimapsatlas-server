@@ -60,6 +60,7 @@ class Datasource:
         """Download the datasource if not already downloaded"""
         if not os.path.isfile(self.filepath):
             bash("wget -P "+self.download_dir+" "+self.config["download_url"])
+            self.unzip()
         else:
             print self.filepath + " already exists"
         

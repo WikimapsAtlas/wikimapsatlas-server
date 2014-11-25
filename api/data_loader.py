@@ -44,7 +44,6 @@ def load_sources():
         for datasource in atlas_data["datasource"]:
             D = Datasource(datasource, download_dir)
             D.download()
-            D.unzip()
     f.close()
     return
             
