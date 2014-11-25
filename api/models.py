@@ -41,3 +41,20 @@ class Hasc:
                 return json.dumps(json.load(f))
             finally:
                 f.close()
+                
+                
+class Datasource:
+    """A vector or raster raster source to be used in the Wikimaps Atlas Database"""
+    
+    def __init__(self, config, download_dir):
+        self.config = config
+        self.download_dir = download_dir
+        self.path = download_dir + self.config["dir"]
+        
+    def download(self):
+        """Download the datasource"""
+        bash("wget -P "+self.download_dir+" "+self.config["download_url"])
+        
+    def unzip(self):
+        """Unpack the source"""
+        bash("gzip")

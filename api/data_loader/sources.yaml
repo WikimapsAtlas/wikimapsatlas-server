@@ -1,0 +1,62 @@
+# Data source configuration for Wikimaps Atlas Database
+# v0.3
+
+name: Wikimaps Atlas
+source: wikimapsatlas.github.io
+license: ODbL
+database: wikimaps_atlas
+download_dir: ../data/download/
+
+datasource:
+- name: Natural Earth Data
+  homepage: http://www.naturalearthdata.com/
+  version: 2.0.0
+  license: PD
+  loader: naturalearth.py
+  download_url: http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
+  dir: natural_earth_vector/
+  srs: 4326
+  layer:
+  
+#  - name: Country polygons
+#    path: 110m_cultural/ne_110m_admin_0_countries.shp
+#    table: adm0_area
+#    load: shp2pgsql -s 4326 -W LATIN1 -d $path adm0_area $database > temp.sql | psql $user -h $host –p $port -d $database -f temp.sql
+#    alter: 
+#      
+#  - name: State polygons
+#    path: 10m_cultural/ne_10m_admin_1_states_provinces_shp.shp
+#    table_name: adm1_area
+#    
+#- name: OSM Coastlines
+#  homepage: http://openstreetmapdata.com/data/coastlines
+#  version: 2014-11-23
+#  license: ODbL
+#  download_url: wget -P ../data/download http://data.openstreetmapdata.com/coastlines-split-3857.zip
+#  path: 
+#  srs: 3857
+#    
+#- name: OSM Land (Simplified)
+#  homepage: http://openstreetmapdata.com/data/land-polygons
+#  version: 2014-11-23
+#  license: ODbL
+#  download_url: wget -P ../data/download http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
+#  path: 
+#  srs: 3857
+#    
+#- name: Shuttle Radar Topographic Mission
+#  homepage: http://www.naturalearthdata.com/
+#  version: 2.0.0
+#  license: PD
+#  download_url: http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
+#  unpack: 
+#  path: natural_earth_vector/
+#  layer:
+#  - name: Country polygons
+#    path: 110m_cultural/ne_110m_admin_0_countries.shp
+#    table_name: adm0_area
+#      
+#  - name: State polygons
+#    path: 10m_cultural/ne_10m_admin_1_states_provinces_shp.shp
+#    table_name: adm1_area
+#  
