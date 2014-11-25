@@ -3,6 +3,7 @@
 from local import *
 from models import Datasource
 import yaml
+import os.path
 
 def create_atlas():
     "Creates fresh wikimaps database"
