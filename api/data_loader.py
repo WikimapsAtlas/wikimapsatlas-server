@@ -15,19 +15,6 @@ def create_atlas():
     return
 
 
-def download_map_data():
-    "Download data sources"
-    with open('sources.yaml', 'r') as f:
-        atlas_data = yaml.load(f)
-    
-        # Download and unpack datasources
-        for datasource in atlas_data["datasource"]:
-            bash("wget -P "+output_dir+" "+datasource["download_url"])
-        
-    f.close()
-    return
-
-
 def load_sources():
     "Load GIS data into database"
     with open('data_loader/sources.yaml', 'r') as f:
@@ -37,7 +24,7 @@ def load_sources():
         
         # If data dir does not exists, create a new database and the directory for the data sources
         if not os.path.exists(download_dir):
-            create_atlas()
+#            create_atlas()
             os.makedirs(download_dir)
         
         # Load shapefile layers into Atlas db using shp2pgsql
@@ -48,8 +35,6 @@ def load_sources():
     return
             
 def main():
-#    create_atlas()
-#    download_map_data()
     load_sources()
     return
 main()

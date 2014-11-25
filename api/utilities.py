@@ -15,7 +15,7 @@ from settings import *
 psql_user = "psql -U " + user
 atlas_db = "wikimaps_atlas" # Default database name
 psycopg_connect_atlas= "dbname="+atlas_db+" user="+user
-atlas_connect_ogr2ogr= "'host="+host+" user="+user+" dbname=wikimaps_atlas'"
+atlas_connect_ogr2ogr= "'host="+host+" user="+user+" dbname="+atlas_db+"'"
 
 
 def bash(command):
