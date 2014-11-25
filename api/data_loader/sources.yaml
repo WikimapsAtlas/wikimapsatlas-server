@@ -32,7 +32,7 @@ datasource:
   homepage: http://openstreetmapdata.com/data/coastlines
   version: 2014-11-23
   license: ODbL
-  download_url: wget -P ../data/download http://data.openstreetmapdata.com/coastlines-split-3857.zip
+  download_url: http://data.openstreetmapdata.com/coastlines-split-3857.zip
   dir: osm/
   srs: 3857
     
@@ -40,7 +40,7 @@ datasource:
   homepage: http://openstreetmapdata.com/data/land-polygons
   version: 2014-11-23
   license: ODbL
-  download_url: wget -P ../data/download http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
+  download_url: http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
   dir: osm/
   srs: 3857
     
