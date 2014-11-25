@@ -1,5 +1,9 @@
-from local import *
+from utilities import *
 
+class Wikimaps_Atlas:
+    """Database object"""
+    
+    
 class Hasc:
     """ Heirarchal Administrative Subdivision Code """
     """ http://en.wikipedia.org/wiki/Hierarchical_administrative_subdivision_codes """
