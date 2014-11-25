@@ -53,11 +53,15 @@ class Datasource:
     def __init__(self, config, download_dir):
         self.config = config
         self.download_dir = download_dir
-        self.path = download_dir + self.config["dir"]
+        self.dir = download_dir + self.config["dir"]
+        self.filepath = download_dir + self.config["download_url"].rsplit('/', 1)[-1]
         
     def download(self):
-        """Download the datasource"""
-        bash("wget -P "+self.download_dir+" "+self.config["download_url"])
+        """Download the datasource if not already downloaded"""
+        if not os.path.isfile(self.filepath):
+            bash("wget -P "+self.download_dir+" "+self.config["download_url"])
+        else:
+            print self.filepath + " already exists"
         
     def unzip(self):
         """Unpack the source"""
