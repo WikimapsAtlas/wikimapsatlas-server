@@ -1,6 +1,6 @@
 # Wikimaps Atlas Database Creator
 
-from local import *
+from local import bash, psql_bash
 from models import Datasource
 import yaml
 import os.path
