@@ -73,14 +73,15 @@ class Datasource:
             config = yaml.load(f)
 
             for layer in config["layers"]:
-#                shp2pgsql()
                 shapefile = self.dir+layer["file"]
-                self.shp2pgsql(shapefile, layer['table'])
-#                print path
-#                bash(query)
-#                utils.psql_atlas(test)
-#                self.shp2pgsql(
-
+                self.shp2pgsql(shapefile, layer['table'])    
+        
+                # Alter the table if need
+                try:
+                    query = layer["alter"].format(table=layer['table'])
+                    utils.psycopg_atlas(query)
+                except:
+                    pass
         
     def unzip(self):
         """Unpack the source"""
@@ -90,9 +91,13 @@ class Datasource:
         """Load shapefiles into a postgres database"""
         
         print "Opening {shapefile}".format(shapefile=shapefile)
-        query = "shp2pgsql -s {srs} -W LATIN1  {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
+        query = "shp2pgsql -s {srs} -W LATIN1 -d {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
         utils.bash(query)
         print "Sql schema generated"
         
+        # Create the table if it does not exist
+#        utils.psycopg_atlas("CREATE TABLE IF NOT EXISTS {table}(name    varchar(40));".format(table=table))
+        # Load the sql
         utils.psycopg_atlas(open('temp.sql', 'r').read())
         print "Loaded schema into database"
+        
