@@ -72,18 +72,27 @@ class Datasource:
         with open("data_loader/"+self.config["layer_config"], 'r') as f:
             config = yaml.load(f)
 
-            for layers in config["layers"]:
+            for layer in config["layers"]:
 #                shp2pgsql()
-#                path = atlas_data["datapath"]+datasource["path"]+layer["path"]
+                shapefile = self.dir+layer["file"]
+                self.shp2pgsql(shapefile, layer['table'])
+#                print path
 #                bash(query)
-                print("Loaded successfuly")
+#                utils.psql_atlas(test)
+#                self.shp2pgsql(
 
         
     def unzip(self):
         """Unpack the source"""
         utils.bash("unzip "+self.filepath+" -d "+self.dir)
         
-    def shp2pgsql(self, shapefile, table,):
+    def shp2pgsql(self, shapefile, table):
         """Load shapefiles into a postgres database"""
-        query = "shp2pgsql -s {srs} -W LATIN1 -d {table} {database} > temp.sql | psql -h {host} -p {port} -d"
-#            bash(query)
+        
+        print "Opening {shapefile}".format(shapefile=shapefile)
+        query = "shp2pgsql -s {srs} -W LATIN1  {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
+        utils.bash(query)
+        print "Sql schema generated"
+        
+        utils.psycopg_atlas(open('temp.sql', 'r').read())
+        print "Loaded schema into database"

@@ -5,7 +5,6 @@ import subprocess	# for making system calls
 import psycopg2     # for communicating with postgres 
 import psycopg2.extras
 import yaml         # for reading yaml config file
-import json
 import os.path
 
 # Local settings
@@ -39,8 +38,9 @@ def psql_atlas_sql(sql_file):
     bash(psql_sql)
     return
 
-def psql_atlas(query):
+def psycopg_atlas(query):
     "Executes a query on the atlas database"
+    '''Was psql_atlas'''
     
     # Connect to atlas
     atlas = psycopg2.connect(psycopg_connect_atlas)

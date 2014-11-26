@@ -28,21 +28,21 @@ datasource:
 #    path: 10m_cultural/ne_10m_admin_1_states_provinces_shp.shp
 #    table_name: adm1_area
 #    
-- name: OSM Coastlines
-  homepage: http://openstreetmapdata.com/data/coastlines
-  version: 2014-11-23
-  license: ODbL
-  download_url: http://data.openstreetmapdata.com/coastlines-split-3857.zip
-  dir: osm/
-  srs: 3857
-    
-- name: OSM Land (Simplified)
-  homepage: http://openstreetmapdata.com/data/land-polygons
-  version: 2014-11-23
-  license: ODbL
-  download_url: http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
-  dir: osm/
-  srs: 3857
+#- name: OSM Coastlines
+#  homepage: http://openstreetmapdata.com/data/coastlines
+#  version: 2014-11-23
+#  license: ODbL
+#  download_url: http://data.openstreetmapdata.com/coastlines-split-3857.zip
+#  dir: osm/
+#  srs: 3857
+#    
+#- name: OSM Land (Simplified)
+#  homepage: http://openstreetmapdata.com/data/land-polygons
+#  version: 2014-11-23
+#  license: ODbL
+#  download_url: http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
+#  dir: osm/
+#  srs: 3857
     
 #- name: Shuttle Radar Topographic Mission
 #  homepage: http://www.naturalearthdata.com/

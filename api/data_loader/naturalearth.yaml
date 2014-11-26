@@ -6,5 +6,5 @@ name: Natural Earth Vectors
 layers:
 - name: Admin0 Areas
   table: adm0_area
-  shp: 110m_cultural/ne_110m_admin_0_countries.shp
+  file: 110m_cultural/ne_110m_admin_0_countries.shp
   
