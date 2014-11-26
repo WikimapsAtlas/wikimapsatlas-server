@@ -1,6 +1,6 @@
 # Wikimaps Atlas Database Creator
 
-from utilities import *
+from utils import *
 from models import Datasource
 import yaml
 import os.path
@@ -30,7 +30,7 @@ def load_sources():
         # Load shapefile layers into Atlas db using shp2pgsql
         for datasource in atlas_data["datasource"]:
             D = Datasource(datasource, download_dir)
-            D.download()
+            D.load_layers()
     f.close()
     return
             

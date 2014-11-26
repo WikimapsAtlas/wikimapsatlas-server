@@ -1,4 +1,5 @@
-from utilities import *
+import utils
+import os, yaml
 
 class Wikimaps_Atlas:
     """Database object"""
@@ -48,22 +49,41 @@ class Hasc:
                 
                 
 class Datasource:
-    """A vector or raster raster source to be used in the Wikimaps Atlas Database"""
+    """A vector or raster source to be used in the Wikimaps Atlas Database"""
     
     def __init__(self, config, download_dir):
         self.config = config
         self.download_dir = download_dir
         self.dir = download_dir + self.config["dir"]
         self.filepath = download_dir + self.config["download_url"].rsplit('/', 1)[-1]
+        self.srs = self.config["srs"]
         
     def download(self):
         """Download the datasource if not already downloaded"""
         if not os.path.isfile(self.filepath):
-            bash("wget -P "+self.download_dir+" "+self.config["download_url"])
+            utils.bash("wget -P "+self.download_dir+" "+self.config["download_url"])
             self.unzip()
+            self.process()
         else:
             print self.filepath + " already exists"
+            
+    def load_layers(self):
+        """Load the layer configuration for the datasource"""
+        with open("data_loader/"+self.config["layer_config"], 'r') as f:
+            config = yaml.load(f)
+
+            for layers in config["layers"]:
+#                shp2pgsql()
+#                path = atlas_data["datapath"]+datasource["path"]+layer["path"]
+#                bash(query)
+                print("Loaded successfuly")
+
         
     def unzip(self):
         """Unpack the source"""
-        bash("unzip "+self.filepath+" -d "+self.dir)
+        utils.bash("unzip "+self.filepath+" -d "+self.dir)
+        
+    def shp2pgsql(self, shapefile, table,):
+        """Load shapefiles into a postgres database"""
+        query = "shp2pgsql -s {srs} -W LATIN1 -d {table} {database} > temp.sql | psql -h {host} -p {port} -d"
+#            bash(query)
