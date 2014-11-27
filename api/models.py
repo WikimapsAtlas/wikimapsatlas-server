@@ -48,6 +48,7 @@ class Hasc:
                 f.close()
                 
                 
+                
 class Datasource:
     """A vector or raster source to be used in the Wikimaps Atlas Database"""
     
@@ -58,6 +59,7 @@ class Datasource:
         self.filepath = download_dir + self.config["download_url"].rsplit('/', 1)[-1]
         self.srs = self.config["srs"]
         
+        
     def download(self):
         """Download the datasource if not already downloaded"""
         if not os.path.isfile(self.filepath):
@@ -66,6 +68,7 @@ class Datasource:
             self.process()
         else:
             print self.filepath + " already exists"
+            
             
     def load_layers(self):
         """Load the layer configuration for the datasource"""
@@ -76,27 +79,27 @@ class Datasource:
                 shapefile = self.dir+layer["file"]
                 self.shp2pgsql(shapefile, layer['table'])    
         
-                # Alter the table if need
+                # Alter the table if needed
                 try:
                     query = layer["alter"].format(table=layer['table'])
                     utils.psycopg_atlas(query)
                 except:
                     pass
-        
+    
+    
     def unzip(self):
         """Unpack the source"""
         utils.bash("unzip "+self.filepath+" -d "+self.dir)
+        
         
     def shp2pgsql(self, shapefile, table):
         """Load shapefiles into a postgres database"""
         
         print "Opening {shapefile}".format(shapefile=shapefile)
-        query = "shp2pgsql -s {srs} -W LATIN1 -d {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
+        query = "shp2pgsql -s {srs} -W LATIN1 {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
         utils.bash(query)
         print "Sql schema generated"
         
-        # Create the table if it does not exist
-#        utils.psycopg_atlas("CREATE TABLE IF NOT EXISTS {table}(name    varchar(40));".format(table=table))
         # Load the sql
         utils.psycopg_atlas(open('temp.sql', 'r').read())
         print "Loaded schema into database"
