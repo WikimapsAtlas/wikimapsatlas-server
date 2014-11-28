@@ -90,7 +90,7 @@ class Datasource:
     def unzip(self):
         """Unpack the source"""
         utils.bash("unzip "+self.filepath+" -d "+self.dir)
-        
+
         
     def shp2pgsql(self, shapefile, table):
         """Load shapefiles into a postgres database"""
@@ -99,7 +99,7 @@ class Datasource:
         query = "shp2pgsql -s {srs} -W LATIN1 {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
         utils.bash(query)
         print "Sql schema generated"
-        
+    
         # Load the sql
         utils.psycopg_atlas(open('temp.sql', 'r').read())
         print "Loaded schema into database"
