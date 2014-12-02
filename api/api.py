@@ -8,7 +8,7 @@
 # DEPENDENCIES
 # pip install -U psycopg2 flask flask-restful pyyaml
 
-from utils import *
+from utils import psycopg2,psycopg_connect_atlas
 from models import Hasc
 import json
 
