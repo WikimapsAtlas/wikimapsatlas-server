@@ -1,5 +1,5 @@
 import utils
-import os, yaml
+import os, yaml, json
 
 class Wikimaps_Atlas:
     """Database object"""
@@ -26,9 +26,9 @@ class Hasc:
         
         # Construct file paths
         file_name = "adm" + str(self.adm_level)     # adm0 | adm1
-        file_dir = "../data/" + self.data_dir       # ../data/IN/MD/
-        file_path = file_dir + file_name            # ../data/IN/MD/adm2
-        target_file = file_path+"."+json_format         # ../data/IN/MD/adm2.topojson
+        file_dir = "../data/json/" + self.data_dir       # ../data/json/IN/MD/
+        file_path = file_dir + file_name            # ../data/json/IN/MD/adm2
+        target_file = file_path+"."+json_format         # ../data/json/IN/MD/adm2.topojson
 
         # If target file does not exist
         if not os.path.exists(target_file):
@@ -38,7 +38,7 @@ class Hasc:
                 os.makedirs(file_dir)
                 
             # Now generate the files
-            postgis2geojson(self.adm_area_table,file_path,"-w \"iso_a2 LIKE '"+self.code+"'\"" )
+            utils.postgis2geojson(self.adm_area_table,file_path,"-w \"code_hasc LIKE '"+self.code+"'\"" )
 
         # Read generated file
         with open(target_file, 'r') as f:

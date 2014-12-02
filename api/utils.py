@@ -56,5 +56,5 @@ def psycopg_atlas(query):
 # Run a postgis2geojson command
 # using https://github.com/jczaplew/postgis2geojson
 def postgis2geojson(table,output,options=""):
-    bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -u postgres -g the_geom --topojson -t "+table+" -o "+output+" "+options)
+    bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -u postgres -g geom --topojson -t "+table+" -o "+output+" "+options)
     
