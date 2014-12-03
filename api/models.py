@@ -89,14 +89,14 @@ class Datasource:
     
     def unzip(self):
         """Unpack the source"""
-        utils.bash("unzip "+self.filepath+" -d "+self.dir)
+        utils.bash("unzip {} -d {}".fromat(self.filepath,self.dir))
 
         
     def shp2pgsql(self, shapefile, table):
         """Load shapefiles into a postgres database"""
         
         print "Opening {shapefile}".format(shapefile=shapefile)
-        query = "shp2pgsql -s {srs} -W LATIN1 {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
+        query = "shp2pgsql -s {srs} -W LATIN1 -g geom {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
         utils.bash(query)
         print "Sql schema generated"
     
