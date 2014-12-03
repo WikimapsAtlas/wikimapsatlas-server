@@ -13,6 +13,11 @@ from api import app
 # create Flask application
 app = Flask(__name__)
 
+# register 'hello world' page
+@app.route("/")
+def hello():
+        return "Welcome the the Wikimaps Atlas API"
+        
 # configure Flask logging
 from logging import FileHandler
 logger = FileHandler('error.log')
