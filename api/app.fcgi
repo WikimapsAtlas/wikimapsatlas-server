@@ -10,9 +10,6 @@ import logging
 
 from api import app
 
-# create Flask application
-app = Flask(__name__)
-
 # register 'hello world' page
 @app.route("/")
 def hello():

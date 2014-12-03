@@ -20,7 +20,7 @@ api = Api(app)
 
 
 # API Index
-@app.route('/api/v1/')
+@app.route('/v1/')
 def api_root():
     text = '''
     <h1>Wikiatlas API</h1>
@@ -37,7 +37,7 @@ def api_root():
     return textwrap.dedent(text).strip()
 
 # Return list of adm0 areas
-@app.route('/api/v1/world/', methods=['GET'])
+@app.route('/v1/world/', methods=['GET'])
 def list_adm0_areas():
     atlas = psycopg2.connect(psycopg_connect_atlas)
     atlas_cur = atlas.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -49,7 +49,7 @@ def list_adm0_areas():
     return json.dumps(countries)
 
 # Return list of adm1 areas for a given adm0 area
-@app.route('/api/v1/world/<adm0_area>', methods=['GET'])
+@app.route('/v1/world/<adm0_area>', methods=['GET'])
 def list_adm1_areas(adm0_area):
     atlas = psycopg2.connect(psycopg_connect_atlas)
     atlas_cur = atlas.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -60,7 +60,7 @@ def list_adm1_areas(adm0_area):
     return json.dumps(countries)
 
 # Return bbox of adm area
-@app.route('/api/v1/bbox/<adm_area>', methods=['GET'])
+@app.route('/v1/bbox/<adm_area>', methods=['GET'])
 def generate_adm_bbox(adm_area):
     atlas = psycopg2.connect(psycopg_connect_atlas)
     atlas_cur = atlas.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -75,7 +75,7 @@ def generate_adm_bbox(adm_area):
     return json.dumps(countries)
 
 # Return geojson data of requested area
-@app.route('/api/v1/geojson/<path:adm_area>', methods=['GET'])
+@app.route('/v1/geojson/<path:adm_area>', methods=['GET'])
 def generate_geojson(adm_area):
     atlas = psycopg2.connect(psycopg_connect_atlas)
     atlas_cur = atlas.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -90,7 +90,7 @@ def generate_geojson(adm_area):
     return json.dumps(countries)
     
 # Return topojson data of requested area
-@app.route('/api/v1/topojson/<hasc_code>', methods=['GET'])
+@app.route('/v1/topojson/<hasc_code>', methods=['GET'])
 def generate_topojson(hasc_code):
     H = Hasc(hasc_code)    
     return H.json("topojson","")
