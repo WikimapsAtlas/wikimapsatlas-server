@@ -75,5 +75,5 @@ def atlas2json(query):
 # Run a postgis2geojson command
 # using https://github.com/jczaplew/postgis2geojson
 def postgis2geojson(table,output,options=""):
-    bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -u postgres -g geom --topojson -t {} -o {} {}".format(table, output, options) )
+    bash("python ../postgis2geojson/postgis2geojson.py -d {} -u {} -p {} -g geom --topojson -t {} -o {} {}".format(db['name'],db['user'],db['password'],table, output, options) )
     

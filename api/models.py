@@ -22,7 +22,10 @@ class Hasc:
         self.adm_area_table = "adm" + str(self.adm_level) + "_area"
     
     def json(self, json_format, query): 
-        """ Generate a topojson and geojson file for the area and return the appropriate format """
+        """ Generate a topojson and geojson file for the area and return the appropriate format 
+        Naming format:
+        <hasc.code> / <layer><adm_lvl>
+        """
         
         # Construct file paths
         file_name = "adm" + str(self.adm_level)     # adm0 | adm1
