@@ -4,7 +4,7 @@
 import subprocess	# for making system calls
 import psycopg2     # for communicating with postgres 
 import psycopg2.extras
-import yaml         # for reading yaml config file
+import yaml, json
 import os.path
 
 # Local settings
@@ -40,7 +40,6 @@ def psql_atlas_sql(sql_file):
 
 def psycopg_atlas(query):
     "Executes a query on the atlas database"
-    '''Was psql_atlas'''
     
     # Connect to atlas
     atlas = psycopg2.connect(psycopg_connect_atlas)
@@ -53,8 +52,28 @@ def psycopg_atlas(query):
     atlas.close()
     return
 
+def atlas2json(query):
+    "Query the atlas and return the JSON"
+    
+    # Create a database connection to wikimaps_atlas
+    db = psycopg2.connect(psycopg_connect_atlas)
+    
+    # Create a DictCursor
+    cursor = db.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute(query)
+    
+    # Fetch the results of the query
+    results = cursor.fetchall()
+    
+    # Close the connection
+    cursor.close()
+    db.close()
+    
+    # Return the results as a json string
+    return json.dumps(results)
+
 # Run a postgis2geojson command
 # using https://github.com/jczaplew/postgis2geojson
 def postgis2geojson(table,output,options=""):
-    bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -u postgres -g geom --topojson -t "+table+" -o "+output+" "+options)
+    bash("python ../postgis2geojson/postgis2geojson.py -d wikimaps_atlas -u postgres -g geom --topojson -t {} -o {} {}".format(table, output, options) )
     

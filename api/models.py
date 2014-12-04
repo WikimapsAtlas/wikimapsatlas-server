@@ -38,7 +38,7 @@ class Hasc:
                 os.makedirs(file_dir)
                 
             # Now generate the files
-            utils.postgis2geojson(self.adm_area_table,file_path,"-w \"code_hasc LIKE '{}'\"".format(self.code) )
+            utils.postgis2geojson(self.adm_area_table,file_path,"-w \"hasc LIKE '{}'\"".format(self.code) )
 
         # Read generated file
         with open(target_file, 'r') as f:
