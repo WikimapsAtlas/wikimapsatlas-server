@@ -1,0 +1,11 @@
+{
+  "name": "wikimapsatlas-server",
+  "version": "0.0.1",
+  "description": "Wikimaps Atlas (2014)",
+  "main": "nothing here",
+  "dependencies": {
+      "topojson": "~1.6.18"
+  },
+  "author": "Hugo lopez and Arun Ganesh",
+  "license": "BSD"
+}

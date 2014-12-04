@@ -26,6 +26,12 @@ git submodule update
 
 # Dependencies
 
+## Python packages
 ```
 sudo apt-get install python-psycopg2
+```
+
+## Node packages
+```
+npm install topojson
 ```

@@ -23,11 +23,11 @@ api = Api(app)
 @app.route('/v1/')
 def api_root():
     text = '''
-    <h1>Wikiatlas API</h1>
-    <h2>api/v1</h2>
+    <h1>Wikiatlas API v1 (December 2014)</h1>
+    <h2>/v1</h2>
 
     <ul>
-    <li> <pre>/world</pre> List available countries with 2 letter ISO code</li>
+    <li> <a href=""><pre>/world</pre></a> List available countries with 2 letter ISO code</li>
     <li> <pre>/world/<country_name|iso_a2></pre> List administrative subunuts within country with hasc codes</li>
     <li> <pre>/bbox/<country_name|iso_a2|hasc></pre> Return bounding box of country name or iso or hasc code</li>
     <li> <pre>/iso2/<country_name|iso3></pre> Return ISO_a2 from hasc or iso_a3 code or country name</li>
