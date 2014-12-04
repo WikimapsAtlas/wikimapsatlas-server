@@ -54,6 +54,10 @@ class Hasc:
         "Return the bounding box of the area"
         return utils.atlas2json("SELECT hasc, name,ST_Box2D(geom) FROM {} WHERE hasc LIKE '{}';".format(self.adm_area_table,self.code) )
     
+    def center(self):
+        "Return the centroid of the area"
+        return utils.atlas2json("SELECT hasc, name, ST_Y(ST_Transform(centroid(geom),4326)), ST_X(ST_Transform(centroid(geom),4326)) FROM {} WHERE hasc LIKE '{}';".format(self.adm_area_table,self.code) )
+    
     def subunits(self):
         "Return the list of subunits within the area"
         return utils.atlas2json("SELECT hasc, name FROM {} WHERE hasc LIKE '{}.%';".format("adm1_area",self.code) )

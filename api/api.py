@@ -20,46 +20,35 @@ api = Api(app)
 
 
 # API Index
-@app.route('/v1/')
+@app.route('/v1/', methods=['GET'])
 def api_root():
-    text = '''
-    <h1>Wikiatlas API v1 (December 2014)</h1>
-    <h2>/v1</h2>
+    return app.send_static_file('index.html')
 
-    <ul>
-    <li> <a href=""><pre>/world</pre></a> List available countries with 2 letter ISO code</li>
-    <li> <pre>/world/<country_name|iso_a2></pre> List administrative subunuts within country with hasc codes</li>
-    <li> <pre>/bbox/<country_name|iso_a2|hasc></pre> Return bounding box of country name or iso or hasc code</li>
-    <li> <pre>/iso2/<country_name|iso3></pre> Return ISO_a2 from hasc or iso_a3 code or country name</li>
-    <li> <pre>/topojson/<iso_a2|hasc>/adm|natural|highway|railway|place|waterway</pre> Return topojson data for requested admin area</li>
-    </ul>
-    '''
-    return textwrap.dedent(text).strip()
 
-# Return list of adm0 areas
 @app.route('/v1/world/', methods=['GET'])
-def list_adm0_areas():
+def list_countries():
     return utils.atlas2json("SELECT hasc,name FROM adm0_area;")
 
-# Return list of adm1 areas for a given adm0 area
 @app.route('/v1/world/<hasc>', methods=['GET'])
-def list_adm1_areas(hasc):
+def list_subunits(hasc):
     H = Hasc(hasc)
     return H.subunits()
 
-# Return bbox of adm area
 @app.route('/v1/bbox/<hasc>', methods=['GET'])
-def generate_adm_bbox(hasc):
+def generate_bbox(hasc):
     H = Hasc(hasc)
     return H.bbox()
 
-# Return geojson data of requested area
+@app.route('/v1/center/<hasc>', methods=['GET'])
+def generate_centroid(hasc):
+    H = Hasc(hasc)
+    return H.center()
+
 @app.route('/v1/geojson/<hasc>', methods=['GET'])
 def generate_geojson(hasc):
     H = Hasc(hasc)
     return H.json("geojson","")
     
-# Return topojson data of requested area
 @app.route('/v1/topojson/<hasc_code>', methods=['GET'])
 def generate_topojson(hasc_code):
     H = Hasc(hasc_code)    
