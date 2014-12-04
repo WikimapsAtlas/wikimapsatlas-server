@@ -60,19 +60,10 @@ def list_adm1_areas(adm0_area):
     return json.dumps(countries)
 
 # Return bbox of adm area
-@app.route('/v1/bbox/<adm_area>', methods=['GET'])
-def generate_adm_bbox(adm_area):
-    atlas = psycopg2.connect(psycopg_connect_atlas)
-    atlas_cur = atlas.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    
-    ## If adm_area is a hasc code, lookup the adm1 table
-    if "." in adm_area :
-        atlas_cur.execute("SELECT ST_Box2D(geom) FROM adm1_area WHERE name LIKE '"+ adm_area +"' OR hasc LIKE '"+ adm_area +"';")
-    else:
-        atlas_cur.execute("SELECT ST_Box2D(geom) FROM adm0_area WHERE name LIKE '"+ adm_area +"' OR hasc LIKE '"+ adm_area +"';")
-    countries = atlas_cur.fetchall()
-    atlas.close()
-    return json.dumps(countries)
+@app.route('/v1/bbox/<hasc>', methods=['GET'])
+def generate_adm_bbox(hasc):
+    H = Hasc(hasc)
+    return H.bbox()
 
 # Return geojson data of requested area
 @app.route('/v1/geojson/<hasc>', methods=['GET'])

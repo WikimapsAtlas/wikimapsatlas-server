@@ -47,6 +47,10 @@ class Hasc:
             finally:
                 f.close()
                 
+    def bbox(self):
+        "Return the bounding box of the area"
+        
+        return utils.atlas2json("SELECT ST_Box2D(geom) FROM {} WHERE hasc LIKE '{}';".format(self.adm_area_table,self.code) )
                 
                 
 class Datasource:
