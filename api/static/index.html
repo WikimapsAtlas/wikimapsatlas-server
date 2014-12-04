@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Wikimaps Atlas API</title>
+    <style>
+        h1,
+        h2,
+        h3,
+        html {
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Wikimaps Atlas API v1.14.12</h1>
+    <h2>Query the world!</h2>
+
+    <h3>Introduction</h3>
+    <p>The <a href="http://tools.wmflabs.org/wikiatlas2014/">Wikimaps Atlas</a> project is an open source wiki geo data engine to create data driven maps for the web.</p>
+
+    <h3>Hierarchical Administrative Subdivision Codes</h3>
+    <p><a href="http://www.statoids.com/ihasc.html"><b>HASC Codes</b></a> are used as the primary identifier to refer to a geographical area, rather than an x/y/z tile system</p>
+
+    <h3>Methods</h3>
+    <ul>
+        <li> <a href="world"><pre>/world</pre></a> List countries of the world</li>
+        <li> <a href="world/IN"><pre>/world/HASC</pre></a> List administrative subunits within country</li>
+        <li> <a href="bbox/IN"><pre>/bbox/HASC</pre></a> Return bounding box of the area</li>
+        <li> <a href="center/IN"><pre>/center/HASC</pre></a> Return centroid of the area</li>
+        <li> <a href="geojson/IN"><pre>/geojson/HASC</pre></a>  <a href="topojson/IN"><pre>/topojson/HASC</pre></a> Return geojson or topojson data of area</li>
+    </ul>
+
+    <h3>Data</h3>
+    <ul>
+        <li>Administrative data is from <a href="http://www.naturalearthdata.com/">Natural Earth</a> with custom joins from the Wikimaps Atlas project (Public Domain)
+        </li>
+    </ul>
+
+</body>
+
+</html>
