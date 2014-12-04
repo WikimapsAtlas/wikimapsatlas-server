@@ -7,8 +7,9 @@ layers:
 - name: Admin0 Areas
   table: adm0_area
   file: 110m_cultural/ne_110m_admin_0_countries.shp
-  alter: ALTER TABLE {table} RENAME iso_a2 TO code_hasc
+  alter: ALTER TABLE {table} RENAME iso_a2 TO hasc;ALTER TABLE {table} RENAME name TO name_short;ALTER TABLE {table} RENAME name_long TO name
 
 - name: Admin1 Areas
   table: adm1_area
   file: 10m_cultural/ne_10m_admin_1_states_provinces_shp.shp
+  alter: ALTER TABLE {table} RENAME code_hasc TO hasc
