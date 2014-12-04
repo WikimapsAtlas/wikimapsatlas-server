@@ -49,10 +49,12 @@ class Hasc:
                 
     def bbox(self):
         "Return the bounding box of the area"
+        return utils.atlas2json("SELECT hasc, name,ST_Box2D(geom) FROM {} WHERE hasc LIKE '{}';".format(self.adm_area_table,self.code) )
+    
+    def subunits(self):
+        "Return the list of subunits within the area"
+        return utils.atlas2json("SELECT hasc, name FROM {} WHERE hasc LIKE '{}.%';".format("adm1_area",self.code) )
         
-        return utils.atlas2json("SELECT ST_Box2D(geom) FROM {} WHERE hasc LIKE '{}';".format(self.adm_area_table,self.code) )
-                
-                
 class Datasource:
     """A vector or raster source to be used in the Wikimaps Atlas Database"""
     

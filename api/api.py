@@ -39,25 +39,13 @@ def api_root():
 # Return list of adm0 areas
 @app.route('/v1/world/', methods=['GET'])
 def list_adm0_areas():
-    atlas = psycopg2.connect(psycopg_connect_atlas)
-    atlas_cur = atlas.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    
-    ## Load list of country names to atlas.adm0
-    atlas_cur.execute("SELECT name,hasc FROM adm0_area;")
-    countries = atlas_cur.fetchall()
-    atlas.close()
-    return json.dumps(countries)
+    return utils.atlas2json("SELECT hasc,name FROM adm0_area;")
 
 # Return list of adm1 areas for a given adm0 area
-@app.route('/v1/world/<adm0_area>', methods=['GET'])
-def list_adm1_areas(adm0_area):
-    atlas = psycopg2.connect(psycopg_connect_atlas)
-    atlas_cur = atlas.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    
-    atlas_cur.execute("SELECT name,hasc FROM adm1_area WHERE admin LIKE '"+ adm0_area +"' OR hasc LIKE '"+ adm0_area +"';")
-    countries = atlas_cur.fetchall()
-    atlas.close()
-    return json.dumps(countries)
+@app.route('/v1/world/<hasc>', methods=['GET'])
+def list_adm1_areas(hasc):
+    H = Hasc(hasc)
+    return H.subunits()
 
 # Return bbox of adm area
 @app.route('/v1/bbox/<hasc>', methods=['GET'])
