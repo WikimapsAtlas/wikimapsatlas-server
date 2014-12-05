@@ -44,15 +44,20 @@ def generate_centroid(hasc):
     H = Hasc(hasc)
     return H.center()
 
-@app.route('/v1/geojson/<hasc>', methods=['GET'])
+@app.route('/v1/near/<hasc>', methods=['GET'])
+def find_nearby_areas(hasc):
+    H = Hasc(hasc)
+    return H.near()
+
+@app.route('/v1/data/geojson/<hasc>', methods=['GET'])
 def generate_geojson(hasc):
     H = Hasc(hasc)
-    return H.json("geojson","")
+    return H.json("geojson")
     
-@app.route('/v1/topojson/<hasc_code>', methods=['GET'])
+@app.route('/v1/data/<hasc_code>', methods=['GET'])
 def generate_topojson(hasc_code):
     H = Hasc(hasc_code)    
-    return H.json("topojson","")
+    return H.json()
 
 # 404 Error handler
 @app.errorhandler(404)

@@ -21,7 +21,7 @@ class Hasc:
         # Set the relevant shape table for the area
         self.adm_area_table = "adm" + str(self.adm_level) + "_area"
     
-    def json(self, json_format, query): 
+    def json(self, json_format="topojson", query=""): 
         """ Generate a topojson and geojson file for the area and return the appropriate format 
         Naming format:
         <hasc.code> / <layer><adm_lvl>
@@ -62,6 +62,17 @@ class Hasc:
         "Return the list of subunits within the area"
         return utils.atlas2json("SELECT hasc, name FROM {} WHERE hasc LIKE '{}.%';".format("adm1_area",self.code) )
         
+    def near(self):
+        "Return the list of nearby areas"
+        query1 = """
+        SELECT hasc, name, ST_Y(ST_Transform(centroid(geom),4326)), ST_X(ST_Transform(centroid(geom),4326)) FROM {} WHERE hasc LIKE '{}'; 
+        """.format(self.adm_area_table,self.code)
+        query2 = """
+        SELECT hasc, name, ST_Y(ST_Transform(centroid(geom),4326)), ST_X(ST_Transform(centroid(geom),4326)) FROM {} WHERE hasc LIKE '{}'; 
+        """.format(self.adm_area_table,self.code)
+        
+        return utils.atlas2json(query1 + query2)
+    
 class Datasource:
     """A vector or raster source to be used in the Wikimaps Atlas Database"""
     

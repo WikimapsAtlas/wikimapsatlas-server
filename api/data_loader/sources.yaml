@@ -16,8 +16,8 @@ datasource:
   download_url: http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
   dir: natural_earth_vector/
   srs: 4326
-  layer:
   
+#  
 #- name: OSM Coastlines
 #  homepage: http://openstreetmapdata.com/data/coastlines
 #  version: 2014-11-23
@@ -26,13 +26,14 @@ datasource:
 #  dir: osm/
 #  srs: 3857
 #    
-#- name: OSM Land (Simplified)
-#  homepage: http://openstreetmapdata.com/data/land-polygons
-#  version: 2014-11-23
-#  license: ODbL
-#  download_url: http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
-#  dir: osm/
-#  srs: 3857
+- name: OSM Land (Simplified)
+  homepage: http://openstreetmapdata.com/data/land-polygons
+  version: 2014-11-23
+  license: ODbL
+  layer_config: osm_coastlines.yaml
+  download_url: http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
+  dir: osm/
+  srs: 3857
     
 #- name: Shuttle Radar Topographic Mission
 #  homepage: http://www.naturalearthdata.com/
