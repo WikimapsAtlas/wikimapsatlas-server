@@ -1,0 +1,9 @@
+# OSM Coastline data loader
+# Wikimaps Atlas
+
+name: Openstreetmap Coastlines
+
+layers:
+- name: Simplified Land Polygons
+  table: land_area
+  file: simplified_land_polygons.shp
