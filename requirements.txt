@@ -1,4 +1,5 @@
 Flask==0.10.1
+Flask-RESTful==0.2.12
 Flask-SQLAlchemy==2.0
 GDAL==1.10.1
 Jinja2==2.7.2
@@ -16,13 +17,14 @@ Twisted-Web==13.2.0
 UniConvertor==1.1.4
 Werkzeug==0.9.6
 adium-theme-ubuntu==0.3.4
+aniso8601==0.84
 apt-xapian-index==0.45
 argparse==1.2.1
-ccsm==0.9.11.2
+ccsm==0.9.11.3
 chardet==2.0.1
 colorama==0.2.5
 command-not-found==0.3
-compizconfig-python==0.9.11.2
+compizconfig-python==0.9.11.3
 configglue==1.1.2
 debtagshw==0.1
 decorator==3.4.0
