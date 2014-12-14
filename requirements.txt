@@ -2,3 +2,4 @@ Flask==0.10.1
 Flask-RESTful==0.2.12
 PyYAML==3.11
 psycopg2==2.4.5
+flup

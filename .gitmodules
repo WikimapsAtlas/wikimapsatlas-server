@@ -1,3 +1,7 @@
 [submodule "postgis2geojson"]
 	path = postgis2geojson
 	url = https://github.com/jczaplew/postgis2geojson.git
+
+[submodule "make-modules"]
+	path = make-modules
+	url = https://github.com/WikimapsAtlas/make-modules.git

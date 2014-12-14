@@ -1,6 +1,6 @@
 {
   "name": "wikimapsatlas-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Wikimaps Atlas (2014)",
   "main": "nothing here",
   "dependencies": {
