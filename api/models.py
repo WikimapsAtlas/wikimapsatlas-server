@@ -82,6 +82,7 @@ class Datasource:
         self.dir = download_dir + self.config["dir"]
         self.filepath = download_dir + self.config["download_url"].rsplit('/', 1)[-1]
         self.srs = self.config["srs"]
+        self.fileformat = self.config["download_url"].rsplit('.', 1)[-1]
         
         
     def download(self):
@@ -100,8 +101,15 @@ class Datasource:
             config = yaml.load(f)
 
             for layer in config["layers"]:
+                
+                shapeformat = layer["file"].rsplit('.', 1)[-1]
                 shapefile = self.dir+layer["file"]
-                self.shp2pgsql(shapefile, layer['table'])    
+                
+                if shapeformat = "shp":
+                    self.shp2pgsql(shapefile, layer['table'])
+                    
+                if shapeformat = "tif":
+                    self.raster2pgsql(shapefile, layer['table'])   
         
                 # Alter the table if needed
                 try:
@@ -128,3 +136,6 @@ class Datasource:
         utils.psycopg_atlas(open('temp.sql', 'r').read())
         print "Loaded schema into database"
         
+    def raster2pgsql(self, raster, table):
+        print "Opening {raster}".format(raster=raster)
+        query = "raster2pgsql -s {srs} -I -C -M {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
