@@ -6,6 +6,6 @@
   "dependencies": {
       "topojson": "~1.6.18"
   },
-  "author": "Hugo lopez and Arun Ganesh",
+  "author": "Arun Ganesh, Hugo lopez",
   "license": "BSD"
 }
