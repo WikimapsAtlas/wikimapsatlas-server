@@ -5,6 +5,10 @@ import psycopg2
 class Wikimaps_Atlas:
     """Database object"""
     
+    def __init__(self):
+        world = Hasc('W')
+        world.generateIndex()
+    
     
 class Hasc:
     """ Heirarchal Administrative Subdivision Code """
@@ -13,8 +17,13 @@ class Hasc:
     def __init__(self, code):
         self.code = code
         
-        # Convert the hasc code into a path by replacing "." with "/" (IND.TN.MD > IND/TN/MD/)
+        # Convert the hasc code into a data path by replacing "." with "/" (IND.TN.MD > IND/TN/MD/)
         self.data_dir = code.replace(".","/")+"/"
+        
+        # For World level, use base directory
+        if code == 'W'
+            self.data_dir = ''
+            self.generate_atlas_index()
 
         # Calculate admin level of the requested area 
         self.adm_level = self.code.count(".")
@@ -22,6 +31,11 @@ class Hasc:
         # Set the relevant shape table for the area
         self.adm_area_table = "adm" + str(self.adm_level) + "_area"
     
+    def generate_atlas_index(self):
+        "Generate an index json file for the territory"
+        
+        
+        
     def json(self, json_format="topojson", query=""): 
         """ Generate a topojson and geojson file for the area and return the appropriate format 
         Naming format:

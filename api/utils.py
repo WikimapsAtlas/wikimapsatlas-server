@@ -59,7 +59,7 @@ def atlas2json(query):
     db = psycopg2.connect(psycopg_connect_atlas)
     
     # Create a DictCursor
-    cursor = db.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cursor.execute(query)
     
     # Fetch the results of the query
@@ -70,7 +70,7 @@ def atlas2json(query):
     db.close()
     
     # Return the results as a json string
-    return json.dumps(results)
+    return json.dumps(results, indent=2)
 
 # Run a postgis2geojson command
 # using https://github.com/jczaplew/postgis2geojson

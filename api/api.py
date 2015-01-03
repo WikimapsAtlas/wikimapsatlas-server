@@ -27,7 +27,7 @@ def api_root():
 
 @app.route('/v1/world/', methods=['GET'])
 def list_countries():
-    return utils.atlas2json("SELECT hasc, name, ST_Box2D(geom) FROM adm0_area;").replace("BOX(","").replace(")","")
+    return utils.atlas2json("SELECT hasc, name, ST_Box2D(geom) FROM adm0_area;").replace("BOX(","").replace(")","").replace("st_box2d","bbox")
 
 @app.route('/v1/world/<hasc>', methods=['GET'])
 def list_subunits(hasc):
