@@ -23,6 +23,13 @@ Makefiles to process GIS data to json/topojson for Wikimaps Atlas.
 git submodule init
 git submodule update
 ```
+## Configure make-module
+Create symlinks for the data and output directories
+```
+cd wikimapsatlas-server
+ln -s ../data/download make-modules/data
+ln -s ../data/ make-modules/output
+```
 
 # Dependencies
 
@@ -35,3 +42,7 @@ sudo apt-get install python-psycopg2
 ```
 npm install topojson
 ```
+
+# Deployment
+
+

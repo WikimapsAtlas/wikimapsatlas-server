@@ -1,5 +1,6 @@
 import utils
 import os, yaml, json
+import psycopg2
 
 class Wikimaps_Atlas:
     """Database object"""
@@ -49,7 +50,9 @@ class Hasc:
                 return json.dumps(json.load(f))
             finally:
                 f.close()
-                
+    
+    
+    
     def bbox(self):
         "Return the bounding box of the area"
         return utils.atlas2json("SELECT hasc, name,ST_Box2D(geom) FROM {} WHERE hasc LIKE '{}';".format(self.adm_area_table,self.code) )
@@ -78,6 +81,7 @@ class Datasource:
     
     def __init__(self, config, download_dir):
         self.config = config
+        self.name = self.config["name"]
         self.download_dir = download_dir
         self.dir = download_dir + self.config["dir"]
         self.filepath = download_dir + self.config["download_url"].rsplit('/', 1)[-1]
@@ -97,45 +101,58 @@ class Datasource:
             
     def load_layers(self):
         """Load the layer configuration for the datasource"""
-        with open("data_loader/"+self.config["layer_config"], 'r') as f:
-            config = yaml.load(f)
-
-            for layer in config["layers"]:
-                
-                shapeformat = layer["file"].rsplit('.', 1)[-1]
-                shapefile = self.dir+layer["file"]
-                
-                if shapeformat = "shp":
-                    self.shp2pgsql(shapefile, layer['table'])
-                    
-                if shapeformat = "tif":
-                    self.raster2pgsql(shapefile, layer['table'])   
         
-                # Alter the table if needed
-                try:
-                    query = layer["alter"].format(table=layer['table'])
-                    utils.psycopg_atlas(query)
-                except:
-                    pass
+        try:
+            with open("data_loader/"+self.config["layer_config"], 'r') as f:
+                config = yaml.load(f)
+
+                for layer in config["layers"]:
+
+                    shapeformat = layer["file"].rsplit('.', 1)[-1]
+                    shapefile = self.dir+layer["file"]
+
+                    if shapeformat == "shp":
+                        self.shp2pgsql(shapefile, layer['table'])
+
+                    if shapeformat == "tif":
+                        self.raster2pgsql(shapefile, layer['table'])   
+
+                    # Alter the table if needed
+                    try:
+                        query = layer["alter"].format(table=layer['table'])
+                        utils.psycopg_atlas(query)
+                    except:
+                        pass
+                
+        except KeyError:
+            print "No configuration file found for {}".format(self.name)
     
     
     def unzip(self):
         """Unpack the source"""
-        utils.bash("unzip {} -d {}".fromat(self.filepath,self.dir))
+        utils.bash("unzip {} -d {}".fromat(self.filepath, self.dir))
 
         
-    def shp2pgsql(self, shapefile, table):
+    def shp2pgsql(self, datafile, table):
         """Load shapefiles into a postgres database"""
         
-        print "Opening {shapefile}".format(shapefile=shapefile)
-        query = "shp2pgsql -s {srs} -W LATIN1 -g geom {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
+        print "Opening {shapefile}".format(shapefile=datafile)
+        query = "shp2pgsql -s {srs} -W LATIN1 -g geom {shapefile} {table} > temp.sql".format(srs=self.srs, shapefile=datafile, table=table)
         utils.bash(query)
         print "Sql schema generated"
-    
-        # Load the sql
-        utils.psycopg_atlas(open('temp.sql', 'r').read())
-        print "Loaded schema into database"
+        sql2pgsql(open('temp.sql', 'r').read())
         
-    def raster2pgsql(self, raster, table):
-        print "Opening {raster}".format(raster=raster)
-        query = "raster2pgsql -s {srs} -I -C -M {shapefile} {table} > temp.sql".format(srs=self.srs,shapefile=shapefile,table=table)
+        
+    def raster2pgsql(self, datafile, table):
+        print "Opening {raster}".format(raster=datafile)
+        query = "raster2pgsql -s {srs} -I -C {raster} {table} > temp.sql".format(srs=self.srs, raster=datafile, table=table)
+        utils.bash(query)
+        print "Sql schema generated"
+        try:
+            self.sql2pgsql(open('temp.sql', 'r').read())
+        except psycopg2.ProgrammingError:
+            print "Rasters not supported in PostGIS 1.5 Please upgrade to 2.0"
+        
+    def sql2pgsql(self, sql):
+        utils.psycopg_atlas(sql)
+        print "Loaded schema into database"

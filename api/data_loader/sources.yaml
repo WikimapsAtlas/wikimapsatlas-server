@@ -12,7 +12,7 @@ datasource:
   homepage: http://www.naturalearthdata.com/
   version: 2.0.0
   license: PD
-  layer_config: naturalearth.yaml
+#  layer_config: naturalearth.yaml
   download_url: http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
   dir: natural_earth_vector/
   srs: 4326
@@ -35,7 +35,7 @@ datasource:
   dir: osm/
   srs: 3857
   
-  - name: ETOPO1 GLobal Relief
+- name: ETOPO1 GLobal Relief
   homepage: http://www.ngdc.noaa.gov/mgg/global/global.html
   version: 2009
   license: PD, NGDC/NOAA
