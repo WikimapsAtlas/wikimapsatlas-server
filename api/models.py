@@ -2,7 +2,10 @@ import utils
 import os, yaml, json
 import psycopg2
 
-class Wikimaps_Atlas:
+# Wikiatlas Data Directory
+atlas_data_dir = "../data/json/"
+
+class Atlas:
     """Database object"""
     
     def __init__(self):
@@ -18,22 +21,47 @@ class Hasc:
         self.code = code
         
         # Convert the hasc code into a data path by replacing "." with "/" (IND.TN.MD > IND/TN/MD/)
-        self.data_dir = code.replace(".","/")+"/"
+        self.data_dir = atlas_data_dir + code.replace(".","/")+"/"
         
         # For World level, use base directory
-        if code == 'W'
+        if code == 'W':
             self.data_dir = ''
             self.generate_atlas_index()
 
         # Calculate admin level of the requested area 
-        self.adm_level = self.code.count(".")
+        self.adm_level = self.code.count(".") + 1
         
         # Set the relevant shape table for the area
         self.adm_area_table = "adm" + str(self.adm_level) + "_area"
+        
+        # Set the location directory for the current code
     
     def generate_atlas_index(self):
         "Generate an index json file for the territory"
+#        with open(target_file, 'r') as f:
+    
+    def query2json(self, table, file_name, where, json_type = 'topojson'):
+        "Generates a json result from the requested database query"
+        output_file = self.data_dir + file_name
         
+        query = "-w \"{}\"".format(where)
+        
+        # If target file does not exist
+        if not os.path.exists(output_file + '.' + json_type):
+            
+            # Create a new directory if it does not exist
+            if not os.path.exists(self.data_dir):
+                os.makedirs(self.data_dir)
+                
+            # Now generate the files
+            utils.postgis2geojson(table, output_file, query )
+
+        # Read generated file
+        with open(output_file + '.' + json_type, 'r') as f:
+            try:
+                return json.dumps(json.load(f))
+            finally:
+                f.close()
         
         
     def json(self, json_format="topojson", query=""): 
@@ -44,26 +72,9 @@ class Hasc:
         
         # Construct file paths
         file_name = "adm" + str(self.adm_level)     # adm0 | adm1
-        file_dir = "../data/json/" + self.data_dir       # ../data/json/IN/MD/
-        file_path = file_dir + file_name            # ../data/json/IN/MD/adm2
-        target_file = file_path+"."+json_format         # ../data/json/IN/MD/adm2.topojson
-
-        # If target file does not exist
-        if not os.path.exists(target_file):
-            
-            # Create a new directory if it does not exist
-            if not os.path.exists(file_dir):
-                os.makedirs(file_dir)
-                
-            # Now generate the files
-            utils.postgis2geojson(self.adm_area_table,file_path,"-w \"hasc LIKE '{}'\"".format(self.code) )
-
-        # Read generated file
-        with open(target_file, 'r') as f:
-            try:
-                return json.dumps(json.load(f))
-            finally:
-                f.close()
+    
+        self.query2json(self.adm_area_table, file_name, "hasc LIKE '{}%'".format(self.code), json_format)
+        
     
     
     
