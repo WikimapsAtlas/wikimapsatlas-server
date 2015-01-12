@@ -29,7 +29,7 @@ class Hasc:
             self.generate_atlas_index()
 
         # Calculate admin level of the requested area 
-        self.adm_level = self.code.count(".") + 1
+        self.adm_level = self.code.count(".")
         
         # Set the relevant shape table for the area
         self.adm_area_table = "adm" + str(self.adm_level) + "_area"
@@ -44,7 +44,7 @@ class Hasc:
         "Generates a json result from the requested database query"
         output_file = self.data_dir + file_name
         
-        query = "-w \"{}\"".format(where)
+        options = "-w \"{}\"".format(where)
         
         # If target file does not exist
         if not os.path.exists(output_file + '.' + json_type):
@@ -54,7 +54,7 @@ class Hasc:
                 os.makedirs(self.data_dir)
                 
             # Now generate the files
-            utils.postgis2geojson(table, output_file, query )
+            utils.postgis2geojson(table, output_file, options )
 
         # Read generated file
         with open(output_file + '.' + json_type, 'r') as f:
@@ -73,7 +73,7 @@ class Hasc:
         # Construct file paths
         file_name = "adm" + str(self.adm_level)     # adm0 | adm1
     
-        self.query2json(self.adm_area_table, file_name, "hasc LIKE '{}%'".format(self.code), json_format)
+        return self.query2json(self.adm_area_table, file_name, "hasc LIKE '{}%'".format(self.code), json_format)
         
     
     

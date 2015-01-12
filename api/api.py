@@ -52,6 +52,7 @@ def find_nearby_areas(hasc):
 @app.route('/v1/data/geojson/<hasc>', methods=['GET'])
 def generate_geojson(hasc):
     H = Hasc(hasc)
+    
     return H.json("geojson")
     
 @app.route('/v1/data/<hasc_code>', methods=['GET'])
