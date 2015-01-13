@@ -12,7 +12,7 @@ from utils import psycopg2,psycopg_connect_atlas
 from models import Hasc
 import json, utils
 
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, Response
 from flask.ext.restful import Resource, Api
 
 app = Flask(__name__)
@@ -53,7 +53,7 @@ def find_nearby_areas(hasc):
 def generate_geojson(hasc):
     H = Hasc(hasc)
     
-    return H.json("geojson")
+    return Response(H.json("geojson"),  mimetype='application/json')
     
 @app.route('/v1/data/<hasc_code>', methods=['GET'])
 def generate_topojson(hasc_code):

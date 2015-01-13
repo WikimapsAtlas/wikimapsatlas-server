@@ -72,12 +72,9 @@ class Hasc:
         
         # Construct file paths
         file_name = "adm" + str(self.adm_level)     # adm0 | adm1
-    
-        return self.query2json(self.adm_area_table, file_name, "hasc LIKE '{}%'".format(self.code), json_format)
         
-    
-    
-    
+        return self.query2json(self.adm_area_table, file_name, "hasc LIKE '{}%'".format(self.code), json_format)
+
     def bbox(self):
         "Return the bounding box of the area"
         return utils.atlas2json("SELECT hasc, name,ST_Box2D(geom) FROM {} WHERE hasc LIKE '{}';".format(self.adm_area_table,self.code) )
