@@ -6,11 +6,10 @@ import psycopg2
 atlas_data_dir = "../data/json/"
 
 class Atlas:
-    """Database object"""
+    """The Atlas object"""
     
     def __init__(self):
-        world = Hasc('W')
-        world.generateIndex()
+        world = Hasc('*')
     
     
 class Hasc:
@@ -21,12 +20,11 @@ class Hasc:
         self.code = code
         
         # Convert the hasc code into a data path by replacing "." with "/" (IND.TN.MD > IND/TN/MD/)
-        self.data_dir = atlas_data_dir + code.replace(".","/")+"/"
+        self.hasc_dir = code.replace(".","/")+"/"
         
         # For World level, use base directory
-        if code == 'W':
-            self.data_dir = ''
-            self.generate_atlas_index()
+        if code == '*':
+            self.hasc_dir = ''
 
         # Calculate admin level of the requested area 
         self.adm_level = self.code.count(".")
@@ -35,14 +33,21 @@ class Hasc:
         self.adm_area_table = "adm" + str(self.adm_level) + "_area"
         
         # Set the location directory for the current code
+        self.data_dir = self.output_path('')
+    
+    def output_path(self, file_name):
+        "Constructs the relative output path for the requested filename"
+        return atlas_data_dir + self.hasc_dir + file_name
+    
     
     def generate_atlas_index(self):
         "Generate an index json file for the territory"
-#        with open(target_file, 'r') as f:
+        target_file = output_path
+#        with open(self.output_path('index.json'), 'r') as f:
     
     def query2json(self, table, file_name, where, json_type = 'topojson'):
         "Generates a json result from the requested database query"
-        output_file = self.data_dir + file_name
+        output_file = self.output_path( file_name )
         
         options = "-w \"{}\"".format(where)
         
@@ -53,7 +58,10 @@ class Hasc:
             if not os.path.exists(self.data_dir):
                 os.makedirs(self.data_dir)
                 
-            # Now generate the files
+            # Generate an index file for the region with list of subunits and bounding boxes
+            self.generate_atlas_index()
+        
+            # Now generate the files and regenerate the index
             utils.postgis2geojson(table, output_file, options )
 
         # Read generated file

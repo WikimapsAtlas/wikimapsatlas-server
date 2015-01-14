@@ -12,7 +12,7 @@ from utils import psycopg2,psycopg_connect_atlas
 from models import Hasc
 import json, utils
 
-from flask import Flask, jsonify, make_response, Response
+from flask import Flask, jsonify, make_response, Response, request
 from flask.ext.restful import Resource, Api
 
 app = Flask(__name__)
@@ -59,6 +59,10 @@ def generate_geojson(hasc):
 def generate_topojson(hasc_code):
     H = Hasc(hasc_code)    
     return H.json()
+
+@app.route('/v1/data', methods=['GET'])
+def get_data():  
+    return generate_topojson(request.json['hasc'])
 
 # 404 Error handler
 @app.errorhandler(404)
