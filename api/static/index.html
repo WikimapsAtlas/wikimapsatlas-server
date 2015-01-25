@@ -11,12 +11,26 @@
         html {
             font-family: sans-serif;
         }
+        h1{
+            color: #e31a41;
+            font-weight: normal;
+        }
     </style>
 </head>
 
 <body>
 
-    <h1>Wikimaps Atlas API v1.14.12</h1>
+   <script>
+       
+       var atlasRequest = new XMLHttpRequest();
+       var atlasURL = "http://tools.wmflabs.org/wikiatlas2014/api/data/geojson";
+       var atlasURL = "http://127.0.0.1:5000/v1/data/geojson/IN";
+       atlasRequest.open("GET",atlasURL,false);
+       atlasRequest.send();
+       console.log(atlasRequest.responseText);
+       
+    </script>
+    <h1>Wikimaps Atlas API v1.15.1</h1>
     <h2>Query the world!</h2>
 
     <h3>Introduction</h3>
@@ -30,15 +44,15 @@
     <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
     <h4>Options</h4>
     <ul>
-        <li> <a href="world"><pre>{"hasc":"IN"}</pre></a> 
-        <pre><em>string:</em> W=World(default), A=Asia, E=Europe, F=Africa, N=North America, S=South America, O=Ocenia, X=Arctic, Y=Antarctica, or regular hasc codes</pre> 
-        Hierarchical Administrative Subdivision Code of the territory</li>
+        <li> <a href="world"><pre>{"region":"IN"}</pre></a> 
+        <pre><em>string:</em> W=World(default), A=Asia, E=Europe, F=Africa, N=North America, S=South America, O=Ocenia, X=Arctic, Y=Antarctica, or regular HASC codes</pre> 
+        Region or Hierarchical Administrative Subdivision Code of the territory</li>
         
         <li> <a href="world"><pre>{"level":"0"}</pre></a>
-        <pre><em>integer:</em> 0=Sovereign territory, 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
+        <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
         Administrative level of boundaries</li>
         <li> <a href="world"><pre>{"layer":"admin"}</pre></a> 
-        <pre><em>string:</em> political(default), physical, transport,  </pre>
+        <pre><em>string:</em> political(default), physical, transport  </pre>
         Data layer</li>
         <li> <a href="world"><pre>{"topology":"true"}</pre></a> Json format</li>
     </ul>
