@@ -60,9 +60,9 @@ def generate_topojson(hasc_code):
     H = Hasc(hasc_code)    
     return H.json()
 
-@app.route('/v1/data', methods=['GET'])
+@app.route('/v1/data', methods=['POST','GET'])
 def get_data():  
-    return generate_topojson(request.json['hasc'])
+    return generate_topojson(request.json['region'])
 
 # 404 Error handler
 @app.errorhandler(404)

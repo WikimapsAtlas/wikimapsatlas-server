@@ -22,15 +22,19 @@
 
    <script>
        
-       var atlasRequest = new XMLHttpRequest();
+       var atlasHttpRequest = new XMLHttpRequest();
        var atlasURL = "http://tools.wmflabs.org/wikiatlas2014/api/data/geojson";
-       var atlasURL = "http://127.0.0.1:5000/v1/data/geojson/IN";
-       atlasRequest.open("GET",atlasURL,false);
-       atlasRequest.send();
-       console.log(atlasRequest.responseText);
+       var atlasURL = "http://127.0.0.1:5000/v1/data";
+       atlasHttpRequest.open("POST",atlasURL,false);
+       atlasHttpRequest.setRequestHeader("Content-type","application/json");
        
+       function atlasRequest(options){
+           atlasHttpRequest.send(options);
+           console.log("Requesting Atlas for: "+options);
+           console.log(atlasHttpRequest.responseText);
+       }       
     </script>
-    <h1>Wikimaps Atlas API v1.15.1</h1>
+    <h1>Wikimaps Atlas API v0.15.1</h1>
     <h2>Query the world!</h2>
 
     <h3>Introduction</h3>
@@ -44,7 +48,7 @@
     <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
     <h4>Options</h4>
     <ul>
-        <li> <a href="world"><pre>{"region":"IN"}</pre></a> 
+        <li> <a href="#" onclick=atlasRequest('{"region":"IN"}');><pre>{"region":"IN"}</pre></a> 
         <pre><em>string:</em> W=World(default), A=Asia, E=Europe, F=Africa, N=North America, S=South America, O=Ocenia, X=Arctic, Y=Antarctica, or regular HASC codes</pre> 
         Region or Hierarchical Administrative Subdivision Code of the territory</li>
         
