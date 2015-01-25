@@ -42,7 +42,7 @@ class Hasc:
     
     def generate_atlas_index(self):
         "Generate an index json file for the territory"
-        target_file = output_path
+#        target_file = output_path
 #        with open(self.output_path('index.json'), 'r') as f:
     
     def query2json(self, table, file_name, where, json_type = 'topojson'):

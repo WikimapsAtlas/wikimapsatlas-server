@@ -23,9 +23,28 @@
     <p>The <a href="http://tools.wmflabs.org/wikiatlas2014/">Wikimaps Atlas</a> project is an open source wiki geo data engine to create data driven maps for the web.</p>
 
     <h3>Hierarchical Administrative Subdivision Codes</h3>
-    <p><a href="http://www.statoids.com/ihasc.html"><b>HASC Codes</b></a> are used as the primary identifier to refer to a geographical area, rather than an x/y/z tile system</p>
+    <p><a href="http://www.statoids.com/ihasc.html"><b>HASC Codes</b></a> are used as the primary identifier to refer to a geographical area, rather than an x/y/z tile system.</p>
 
-    <h3>Methods</h3>
+   <h3>Data methods</h3>
+   <h4>URL</h4>
+    <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
+    <h4>Options</h4>
+    <ul>
+        <li> <a href="world"><pre>{"hasc":"IN"}</pre></a> 
+        <pre><em>string:</em> W=World(default), A=Asia, E=Europe, F=Africa, N=North America, S=South America, O=Ocenia, X=Arctic, Y=Antarctica, or regular hasc codes</pre> 
+        Hierarchical Administrative Subdivision Code of the territory</li>
+        
+        <li> <a href="world"><pre>{"level":"0"}</pre></a>
+        <pre><em>integer:</em> 0=Sovereign territory, 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
+        Administrative level of boundaries</li>
+        <li> <a href="world"><pre>{"layer":"admin"}</pre></a> 
+        <pre><em>string:</em> political(default), physical, transport,  </pre>
+        Data layer</li>
+        <li> <a href="world"><pre>{"topology":"true"}</pre></a> Json format</li>
+    </ul>
+    
+    <h3>Data URLS</h3>
+    These return common json lists and shapes with simple urls
     <ul>
         <li> <a href="world"><pre>/world</pre></a> List countries of the world</li>
         <li> <a href="world/IN"><pre>/world/HASC</pre></a> List administrative subunits within country</li>
@@ -35,7 +54,7 @@
         <li> <a href="data/geojson/IN"><pre>data/geojson/HASC</pre></a>  <a href="data/IN"><pre>/data/HASC</pre></a> Return geojson or topojson data of area</li>
     </ul>
 
-    <h3>Data</h3>
+    <h3>Data Source</h3>
     <ul>
         <li>Administrative data is from <a href="http://www.naturalearthdata.com/">Natural Earth</a> with custom joins from the Wikimaps Atlas project (Public Domain)
         </li>
