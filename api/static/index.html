@@ -97,20 +97,29 @@
             <li>DE=Germany today</li>
             <li>1980-E=Europe in 1980</li>
             <li>1980-DE=Germany in 1980</li>
-            <li>1980-DE.BE=Berlin in 1980</li>
+            <li>DE.BE=Berlin today</li>
+            <li>1980-Berlin=Berlin in 1980</li>
             <li>East_Germany=East Germany in 1990 (equivalent to 1990-DD)</li>
             <li>1980-DD=East Germany in 1980</li>
-            <li>DD.BE=East Berlin in 1990</li>
+            <li>DD.BE=East Berlin in 1990 (equivalent to 1990-DD.BE)</li>
+            <li>1990-DE.BE=West Berlin in 1990</li>
         </ul>
 
         <h2>Data Layers</h2>
         <p>Every WKL has associated geographic data categorized into a variety of layers. The common ones are:</p>
         <ul>
-            <li>adm0=Coastlines, Admin level-0 country boundaries(default)</li>
-            <li>adm1=Coastlines, Admin level-1 province boundaries</li>
+            <li>adm0=Coastlines, Admin level-0 country boundaries, cities and capitals(default)</li>
+            <li>adm1=Coastlines, Admin level-1 province boundaries, cities, towns and capitals</li>
         </ul>
-        
-        <h2>Data methods</h2>
+        <h3>Attributes</h3>
+        <p>Every geographic feature has associated attribute fields</p>
+        <ul>
+            <li>name=Common name of the feature</li>
+            <li>hasc=Hierarchical Administrative Subdivision Code of the administrative unit</li>
+        </ul>
+
+        <h2>API</h2>
+        <h3>Methods</h3>
         <h4>URL</h4>
         <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
         <h4>Options</h4>
@@ -124,7 +133,9 @@
             <li> <a href="world"><pre>{"layer":"admin"}</pre></a> 
                 <pre><em>string:</em> political(default), physical, transport  </pre>
                 Data layer</li>
-            <li> <a href="world"><pre>{"topology":"true"}</pre></a> Json format</li>
+            <li> <a href="world"><pre>{"topology":"true"}</pre></a> 
+            <pre><em>boolean:</em> true(default)=topojson, false=geojson  </pre>
+            Json format</li>
         </ul>
 
         <h3>Data URLS</h3>
