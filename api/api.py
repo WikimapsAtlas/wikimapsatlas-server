@@ -25,11 +25,11 @@ def api_root():
     return app.send_static_file('index.html')
 
 
-@app.route('/v1/world/', methods=['GET'])
+@app.route('/v1/index/', methods=['GET'])
 def list_countries():
     return utils.atlas2json("SELECT hasc, name, ST_Box2D(geom) FROM adm0_area;").replace("BOX(","").replace(")","").replace("st_box2d","bbox")
 
-@app.route('/v1/world/<hasc>', methods=['GET'])
+@app.route('/v1/index/<hasc>', methods=['GET'])
 def list_subunits(hasc):
     H = Hasc(hasc)
     return H.subunits()
@@ -62,7 +62,8 @@ def generate_topojson(hasc_code):
 
 @app.route('/v1/data', methods=['POST'])
 def get_data():  
-    return generate_topojson(request.json['region'])
+    wkl = Wkl(request.json['location'])
+    return generate_topojson(request.json['location'])
 
 # 404 Error handler
 @app.errorhandler(404)

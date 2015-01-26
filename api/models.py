@@ -11,6 +11,10 @@ class Atlas:
     def __init__(self):
         world = Hasc('*')
     
+
+class Wkl:
+    """ Well Known Location Code """
+    
     
 class Hasc:
     """ Heirarchal Administrative Subdivision Code """

@@ -124,8 +124,8 @@
         <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
         <h4>Options</h4>
         <ul>
-            <li> <a href="#" onclick=atlasRequest( '{"region":"IN"}');><pre>{"region":"IN"}</pre></a> 
-                <pre><em>string:</em> *=World(default), A=Asia, E=Europe, F=Africa, N=North America, S=South America, O=Ocenia, X=Arctic, Y=Antarctica, or regular HASC codes</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
+            <li> <a href="#" onclick=atlasRequest('{"location":"IN"}');><pre>{"location":"IN"}</pre></a> 
+                <pre><em>string:</em> Heirachal multipart well known locations</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
 
             <li> <a href="world"><pre>{"level":"0"}</pre></a>
                 <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
@@ -138,11 +138,11 @@
             Json format</li>
         </ul>
 
-        <h3>Data URLS</h3>
-        These return common json lists and shapes with simple urls
+        <h3>Json URLS</h3>
+        These return common geojson lists and shapes with simple urls
         <ul>
-            <li> <a href="world"><pre>/world</pre></a> List countries of the world</li>
-            <li> <a href="world/IN"><pre>/world/HASC</pre></a> List administrative subunits within country</li>
+            <li> <a href="index"><pre>/world</pre></a> List countries of the world</li>
+            <li> <a href="index/IN"><pre>/world/HASC</pre></a> List administrative subunits within country</li>
             <li> <a href="bbox/IN"><pre>/bbox/HASC</pre></a> Return bounding box of the area</li>
             <li> <a href="center/IN"><pre>/center/HASC</pre></a> Return centroid of the area</li>
             <li> <a href="near/IN"><pre>/near/HASC</pre></a> List neighbouring areas</li>
