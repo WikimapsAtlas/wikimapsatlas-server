@@ -15,6 +15,10 @@
             color: #e31a41;
             font-weight: normal;
         }
+        h4,
+        h5 {
+            color: #555;
+        }
     </style>
 </head>
 
@@ -33,21 +37,40 @@
             atlasHttpRequest.abort();
         }
     </script>
-    <h1>Wikimaps Atlas API v0.15.1</h1>
+    <h1>Wikimaps:Atlas API v0.15.1</h1>
     <h2>Query the world!</h2>
 
-    <h3>Introduction</h3>
-    <p>The <a href="http://tools.wmflabs.org/wikiatlas2014/">Wikimaps Atlas</a> project is an open source wiki geo data engine to create data driven maps for the web.</p>
+    <h3>About</h3>
+    <p>The <a href="http://tools.wmflabs.org/wikiatlas2014/">Wikimaps Atlas</a> project is an open source wiki geo data engine to create data driven maps for the web. Ever wanted a simple API that can give you a json list of all the countries in the world, or the geojson shape of a province, or the major rivers in the world? This is it.</p>
 
-    <h3>Hierarchical Administrative Subdivision Codes</h3>
-    <p><a href="http://www.statoids.com/ihasc.html"><b>HASC Codes</b></a> are used as the primary identifier to refer to a geographical area, rather than an x/y/z tile system.</p>
-
+    <h3>1.Geocodes</h3>
+    <p>Atlas geocodes are heirarchal albhabetic identifiers for major geographic features and landmarks. These codes can be used to uniquely reference geographic features in a database instead of common names.</p>
+    <h4>1.1.Regions</h4>
+    <p>Continental regions are represented using a single letter, and sub regions using two letters</p>
+    <ul>
+        <li>*=World(default)</li>
+        <li>A=Asia</li>
+        <ul>
+            <li>A.SW=Southwest Asia</li>
+            <li>A.ME=Middle East</li>
+        </ul>
+        <li>M=Middle East & North Africa</li>
+        <li>F=Africa</li>
+        <li>E=Europe</li>
+        <li>N=North America</li>
+        <li>S=South America</li>
+        <li>O=Ocenia</li>
+        <li>X=Arctic</li>
+        <li>Y=Antarctica</li>
+    </ul>
+    <h4>Administrative</h4>
+    <p><a href="http://www.statoids.com/ihasc.html"><b>Hierarchical Administrative Subdivision Codes (HASC)</b></a> are used for administrative regions.</p>
     <h3>Data methods</h3>
     <h4>URL</h4>
     <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
     <h4>Options</h4>
     <ul>
-        <li> <a href="#" onclick=atlasRequest('{"region":"IN"}');><pre>{"region":"IN"}</pre></a> 
+        <li> <a href="#" onclick=atlasRequest( '{"region":"IN"}');><pre>{"region":"IN"}</pre></a> 
             <pre><em>string:</em> *=World(default), A=Asia, E=Europe, F=Africa, N=North America, S=South America, O=Ocenia, X=Arctic, Y=Antarctica, or regular HASC codes</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
 
         <li> <a href="world"><pre>{"level":"0"}</pre></a>
