@@ -60,7 +60,7 @@ def generate_topojson(hasc_code):
     H = Hasc(hasc_code)    
     return H.json()
 
-@app.route('/v1/data', methods=['POST','GET'])
+@app.route('/v1/data', methods=['POST'])
 def get_data():  
     return generate_topojson(request.json['region'])
 

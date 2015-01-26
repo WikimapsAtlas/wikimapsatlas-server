@@ -11,7 +11,7 @@
         html {
             font-family: sans-serif;
         }
-        h1{
+        h1 {
             color: #e31a41;
             font-weight: normal;
         }
@@ -20,19 +20,18 @@
 
 <body>
 
-   <script>
-       
-       var atlasHttpRequest = new XMLHttpRequest();
-       var atlasURL = "http://tools.wmflabs.org/wikiatlas2014/api/data/geojson";
-       var atlasURL = "http://127.0.0.1:5000/v1/data";
-       atlasHttpRequest.open("POST",atlasURL,false);
-       atlasHttpRequest.setRequestHeader("Content-type","application/json");
-       
-       function atlasRequest(options){
-           atlasHttpRequest.send(options);
-           console.log("Requesting Atlas for: "+options);
-           console.log(atlasHttpRequest.responseText);
-       }       
+    <script>
+        function atlasRequest(options) {
+            atlasHttpRequest = new XMLHttpRequest();
+            atlasURL = "http://tools.wmflabs.org/wikiatlas2014/api/data/geojson";
+            atlasURL = "http://127.0.0.1:5000/v1/data";
+            atlasHttpRequest.open("POST", atlasURL, false);
+            atlasHttpRequest.setRequestHeader("Content-type", "application/json");
+            atlasHttpRequest.send(options);
+            console.log("Requesting Atlas for: " + options);
+            console.log(atlasHttpRequest.responseText);
+            atlasHttpRequest.abort();
+        }
     </script>
     <h1>Wikimaps Atlas API v0.15.1</h1>
     <h2>Query the world!</h2>
@@ -43,24 +42,23 @@
     <h3>Hierarchical Administrative Subdivision Codes</h3>
     <p><a href="http://www.statoids.com/ihasc.html"><b>HASC Codes</b></a> are used as the primary identifier to refer to a geographical area, rather than an x/y/z tile system.</p>
 
-   <h3>Data methods</h3>
-   <h4>URL</h4>
+    <h3>Data methods</h3>
+    <h4>URL</h4>
     <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
     <h4>Options</h4>
     <ul>
         <li> <a href="#" onclick=atlasRequest('{"region":"IN"}');><pre>{"region":"IN"}</pre></a> 
-        <pre><em>string:</em> W=World(default), A=Asia, E=Europe, F=Africa, N=North America, S=South America, O=Ocenia, X=Arctic, Y=Antarctica, or regular HASC codes</pre> 
-        Region or Hierarchical Administrative Subdivision Code of the territory</li>
-        
+            <pre><em>string:</em> *=World(default), A=Asia, E=Europe, F=Africa, N=North America, S=South America, O=Ocenia, X=Arctic, Y=Antarctica, or regular HASC codes</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
+
         <li> <a href="world"><pre>{"level":"0"}</pre></a>
-        <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
-        Administrative level of boundaries</li>
+            <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
+            Administrative level of boundaries</li>
         <li> <a href="world"><pre>{"layer":"admin"}</pre></a> 
-        <pre><em>string:</em> political(default), physical, transport  </pre>
-        Data layer</li>
+            <pre><em>string:</em> political(default), physical, transport  </pre>
+            Data layer</li>
         <li> <a href="world"><pre>{"topology":"true"}</pre></a> Json format</li>
     </ul>
-    
+
     <h3>Data URLS</h3>
     These return common json lists and shapes with simple urls
     <ul>
