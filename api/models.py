@@ -10,12 +10,7 @@ class Atlas:
     
     def __init__(self):
         world = Hasc('*')
-    
 
-class Wkl:
-    """ Well Known Location Code """
-    
-    
 class Hasc:
     """ Heirarchal Administrative Subdivision Code """
     """ http://en.wikipedia.org/wiki/Hierarchical_administrative_subdivision_codes """
