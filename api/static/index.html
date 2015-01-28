@@ -37,7 +37,7 @@
             atlasHttpRequest.abort();
         }
     </script>
-<!--
+    <!--
     <h1>Wikimaps:Atlas API v0.15.1</h1>
     <h1>Query the world!</h1>
 
@@ -120,42 +120,47 @@
         </ul>
 -->
 
-        <h2>API</h2>
-        <h3>Methods</h3>
-        <h4>URL</h4>
-        <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
-        <h4>Options</h4>
-        <ul>
-            <li> <a href="#" onclick=atlasRequest('{"location":"IN"}');><pre>{"location":"IN"}</pre></a> 
-                <pre><em>string:</em> Heirachal multipart well known locations</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
+    <h2>API</h2>
+    <h3>Methods</h3>
+    <h4>URL</h4>
+    <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
+    <h4>Options</h4>
+    <ul>
+        <li> <a href="#" onclick=atlasRequest('{"gid":""}');><pre>{"gid":""}</pre></a> 
+            <a href="#" onclick=atlasRequest('{"gid":"IN"}');><pre>{"gid":"IN"}</pre></a> 
+            <a href="#" onclick=atlasRequest('{"gid":"IN.KL"}');><pre>{"gid":"IN.KL"}</pre>
+            </a>
+            <pre><em>string:</em> Heirachal multipart well known locations</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
 
-            <li> <a href="#" onclick=atlasRequest('{"location":"IN","level":"0"}');><pre>{"level":"0"}</pre></a>
-                <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
-                Administrative level of boundaries</li>
-            <li> <a href="world"><pre>{"layer":"admin"}</pre></a> 
-                <pre><em>string:</em> political(default), physical, transport  </pre>
-                Data layer</li>
-            <li> <a href="world"><pre>{"topology":"true"}</pre></a> 
+        <li> <a href="#" onclick=atlasRequest('{"gid":"","level":"1"}');><pre>{"gid":"","level":"1"}</pre></a>
+           <a href="#" onclick=atlasRequest('{"gid":"IN","level":"0"}');><pre>{"gid":"IN","level":"0"}</pre></a>
+           <a href="#" onclick=atlasRequest('{"gid":"IN.KL","level":"1"}');><pre>{"gid":"IN.KL","level":"1"}</pre></a>
+            <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
+            Administrative level of boundaries</li>
+        <li> <a href="world"><pre>{"layer":"admin"}</pre></a> 
+            <pre><em>string:</em> political(default), physical, transport  </pre>
+            Data layer</li>
+        <li> <a href="world"><pre>{"topology":"true"}</pre></a> 
             <pre><em>boolean:</em> true(default)=topojson, false=geojson  </pre>
             Json format</li>
-        </ul>
+    </ul>
 
-        <h3>Json URLS</h3>
-        These return common geojson lists and shapes with simple urls
-        <ul>
-            <li> <a href="index"><pre>/world</pre></a> List countries of the world</li>
-            <li> <a href="index/IN"><pre>/world/HASC</pre></a> List administrative subunits within country</li>
-            <li> <a href="bbox/IN"><pre>/bbox/HASC</pre></a> Return bounding box of the area</li>
-            <li> <a href="center/IN"><pre>/center/HASC</pre></a> Return centroid of the area</li>
-            <li> <a href="near/IN"><pre>/near/HASC</pre></a> List neighbouring areas</li>
-            <li> <a href="data/geojson/IN"><pre>data/geojson/HASC</pre></a>  <a href="data/IN"><pre>/data/HASC</pre></a> Return geojson or topojson data of area</li>
-        </ul>
+    <h3>Json URLS</h3>
+    These return common geojson lists and shapes with simple urls
+    <ul>
+        <li> <a href="index"><pre>/world</pre></a> List countries of the world</li>
+        <li> <a href="index/IN"><pre>/world/HASC</pre></a> List administrative subunits within country</li>
+        <li> <a href="bbox/IN"><pre>/bbox/HASC</pre></a> Return bounding box of the area</li>
+        <li> <a href="center/IN"><pre>/center/HASC</pre></a> Return centroid of the area</li>
+        <li> <a href="near/IN"><pre>/near/HASC</pre></a> List neighbouring areas</li>
+        <li> <a href="data/geojson/IN"><pre>data/geojson/HASC</pre></a>  <a href="data/IN"><pre>/data/HASC</pre></a> Return geojson or topojson data of area</li>
+    </ul>
 
-        <h3>Data Source</h3>
-        <ul>
-            <li>Administrative data is from <a href="http://www.naturalearthdata.com/">Natural Earth</a> with custom joins from the Wikimaps Atlas project (Public Domain)
-            </li>
-        </ul>
+    <h3>Data Source</h3>
+    <ul>
+        <li>Administrative data is from <a href="http://www.naturalearthdata.com/">Natural Earth</a> with custom joins from the Wikimaps Atlas project (Public Domain)
+        </li>
+    </ul>
 
 </body>
 

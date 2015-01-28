@@ -10,7 +10,7 @@
 
 from utils import psycopg2,psycopg_connect_atlas
 from models import Hasc
-from wkl import Gid
+from wikiatlas import Gid
 import json, utils
 
 from flask import Flask, jsonify, make_response, Response, request
@@ -65,7 +65,7 @@ def generate_topojson(hasc_code):
 def data():
     """Data method"""
     G = Gid(request.json)
-    return G.admin_level
+    return G.json()
 #    return L.json(request.json['layer'], request.json['topology'])
 
 # 404 Error handler
