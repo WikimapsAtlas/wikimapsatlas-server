@@ -126,13 +126,13 @@
     <pre>http://tools.wmflabs.org/wikiatlas2014/api/data/geojson</pre>
     <h4>Options</h4>
     <ul>
-        <li> <a href="#" onclick=atlasRequest('{"gid":""}');><pre>{"gid":""}</pre></a> 
+        <li> <a href="#" onclick=atlasRequest('{"gid":"*"}');><pre>{"gid":""}</pre></a> 
             <a href="#" onclick=atlasRequest('{"gid":"IN"}');><pre>{"gid":"IN"}</pre></a> 
             <a href="#" onclick=atlasRequest('{"gid":"IN.KL"}');><pre>{"gid":"IN.KL"}</pre>
             </a>
             <pre><em>string:</em> Heirachal multipart well known locations</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
 
-        <li> <a href="#" onclick=atlasRequest('{"gid":"","level":"1"}');><pre>{"gid":"","level":"1"}</pre></a>
+        <li> <a href="#" onclick=atlasRequest('{"gid":"*","level":"1"}');><pre>{"gid":"","level":"1"}</pre></a>
            <a href="#" onclick=atlasRequest('{"gid":"IN","level":"0"}');><pre>{"gid":"IN","level":"0"}</pre></a>
            <a href="#" onclick=atlasRequest('{"gid":"IN.KL","level":"1"}');><pre>{"gid":"IN.KL","level":"1"}</pre></a>
             <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
@@ -153,7 +153,6 @@
         <li> <a href="bbox/IN"><pre>/bbox/HASC</pre></a> Return bounding box of the area</li>
         <li> <a href="center/IN"><pre>/center/HASC</pre></a> Return centroid of the area</li>
         <li> <a href="near/IN"><pre>/near/HASC</pre></a> List neighbouring areas</li>
-        <li> <a href="data/geojson/IN"><pre>data/geojson/HASC</pre></a>  <a href="data/IN"><pre>/data/HASC</pre></a> Return geojson or topojson data of area</li>
     </ul>
 
     <h3>Data Source</h3>

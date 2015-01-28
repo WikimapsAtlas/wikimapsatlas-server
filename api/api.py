@@ -56,10 +56,10 @@ def generate_geojson(hasc):
     
     return Response(H.json("geojson"),  mimetype='application/json')
     
-@app.route('/v1/data/<hasc_code>', methods=['GET'])
-def generate_topojson(hasc_code):
-    H = Hasc(hasc_code)    
-    return H.json()
+#@app.route('/v1/data/<hasc_code>', methods=['GET'])
+#def generate_topojson(hasc_code):
+#    H = Hasc(hasc_code)    
+#    return H.json()
 
 @app.route('/v1/data', methods=['POST'])
 def data():
