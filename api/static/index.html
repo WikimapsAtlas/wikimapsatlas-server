@@ -37,6 +37,7 @@
             atlasHttpRequest.abort();
         }
     </script>
+<!--
     <h1>Wikimaps:Atlas API v0.15.1</h1>
     <h1>Query the world!</h1>
 
@@ -45,15 +46,15 @@
 
     <h2>Well Known Locations - WKL</h2>
     <p>WKLs are multipart heirarchal albhabetic identifiers for major geographic features and landmarks. These codes can be used to uniquely reference well known geographic feature at a particular point in time on earth. WKL codes are made up of the following attributes:</p>
-    <pre>Temporal-Spatial-Nominal</pre>
+    <pre>Time-Place-Name</pre>
 
     <p>WKLs are proposed to help eliminate ambiguity regarding named geographical features in computer databases, since proper names vary across languages, place and time. eg. The WKL code for the territory of Germany in the year 1940 would be <i>1940-DE</i>
     </p>
 
-    <h3>1.Temporal</h3>
+    <h3>1.Time</h3>
     <p>Historical and future locations can be referenced by prefixing the WKL with a numerical datestamp in the format: <pre>Year.Month.Day.Hour</pre> If the temporal identifier is omitted, the system assumes you are referring to the present. The spatial codes</p>
 
-    <h3>2.Spatial</h3>
+    <h3>2.Place</h3>
     <p>Any place on earth can be described as being in a certain geographical region or an administrative unit.</p>
     <h4>2.1.Regions</h4>
     <p>Continental regions are represented using a single letter, and sub continents using two letters.</p>
@@ -88,7 +89,7 @@
             <li>...</li>
         </ul>
 
-        <h3>3.Nominal</h3>
+        <h3>3.Name</h3>
         <p>The common name of the geogarphical feature can be included in the WKL to reference a more specific feature that cannot be trageted with the temporal and spatial attributes. This is considered the least significant attribute and is ignored if a suitable feature match is not found.</p>
 
         <h3><i>Examples</i></h3>
@@ -117,6 +118,7 @@
             <li>name=Common name of the feature</li>
             <li>hasc=Hierarchical Administrative Subdivision Code of the administrative unit</li>
         </ul>
+-->
 
         <h2>API</h2>
         <h3>Methods</h3>
@@ -127,7 +129,7 @@
             <li> <a href="#" onclick=atlasRequest('{"location":"IN"}');><pre>{"location":"IN"}</pre></a> 
                 <pre><em>string:</em> Heirachal multipart well known locations</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
 
-            <li> <a href="world"><pre>{"level":"0"}</pre></a>
+            <li> <a href="#" onclick=atlasRequest('{"location":"IN","level":"0"}');><pre>{"level":"0"}</pre></a>
                 <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
                 Administrative level of boundaries</li>
             <li> <a href="world"><pre>{"layer":"admin"}</pre></a> 

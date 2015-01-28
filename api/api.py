@@ -10,7 +10,7 @@
 
 from utils import psycopg2,psycopg_connect_atlas
 from models import Hasc
-from wkl import Location
+from wkl import Gid
 import json, utils
 
 from flask import Flask, jsonify, make_response, Response, request
@@ -62,9 +62,11 @@ def generate_topojson(hasc_code):
     return H.json()
 
 @app.route('/v1/data', methods=['POST'])
-def get_data():  
-    wkl = Wkl(request.json['location'], request.json['level'])
-    return generate_topojson(request.json['location'])
+def data():
+    """Data method"""
+    G = Gid(request.json)
+    return G.admin_level
+#    return L.json(request.json['layer'], request.json['topology'])
 
 # 404 Error handler
 @app.errorhandler(404)
