@@ -137,10 +137,10 @@
            <a href="#" onclick=atlasRequest('{"gid":"IN.KL","level":"1"}');><pre>{"gid":"IN.KL","level":"1"}</pre></a>
             <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
             Administrative level of boundaries</li>
-        <li> <a href="world"><pre>{"layer":"admin"}</pre></a> 
-            <pre><em>string:</em> political(default), physical, transport  </pre>
+        <li> <a href="#" onclick=atlasRequest('{"layer":"bbox"}');><pre>{"layer":"bbox"}</pre></a> 
+            <pre><em>string:</em> admin(default)=Administrative boundaries, bbox=Bounding box index  </pre>
             Data layer</li>
-        <li> <a href="world"><pre>{"topology":"true"}</pre></a> 
+        <li> <a href="#" onclick=atlasRequest('{"topology":"false"}');><pre>{"topology":"false"}</pre></a> 
             <pre><em>boolean:</em> true(default)=topojson, false=geojson  </pre>
             Json format</li>
     </ul>
