@@ -85,8 +85,14 @@ class Gid:
         
     def json(self, query=""): 
         """ Generate a topojson and geojson file for the location_id
-        """        
-        return self.query2json(self.query_table, self.query_where, self.file_name)
+        """
+        if self.data_layer == 'bbox':
+            result = utils.atlas2json("SELECT hasc, name, ST_Box2D(geom) FROM adm0_area;").replace("BOX(","").replace(")","").replace("st_box2d","bbox")
+            return result
+#            for bbox in result['bbox']:
+#                return bbox
+        else:
+            return self.query2json(self.query_table, self.query_where, self.file_name)
     
     
         
