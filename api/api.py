@@ -14,11 +14,14 @@ from wikiatlas import Gid
 import json, utils
 
 from flask import Flask, jsonify, make_response, Response, request
+from flask.ext.cors import CORS, cross_origin
 from flask.ext.restful import Resource, Api
 
 app = Flask(__name__)
 api = Api(app)
-
+# Enable cross domain requests
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type', 'X-Requested-With'
 
 # API Index
 @app.route('/v1/', methods=['GET'])
@@ -62,6 +65,7 @@ def generate_geojson(hasc):
 #    return H.json()
 
 @app.route('/v1/data', methods=['POST'])
+@cross_origin()
 def data():
     """Data method"""
     G = Gid(request.json)
