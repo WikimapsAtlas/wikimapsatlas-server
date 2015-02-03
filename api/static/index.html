@@ -31,7 +31,7 @@
     <p>The <a href="http://tools.wmflabs.org/wikiatlas2014/">Wikimaps Atlas</a> project is an open source wiki geo data engine to create data driven maps for the web. Ever wanted a simple API that can give you a json list of all the countries in the world, or the geojson shape of a province, or the major rivers in the world? This is it.</p>
 
     <h2>Geographic Feature ID - GID</h2>
-    <p>GIDs are multipart heirarchal albhabetic identifiers for major geographic features and landmarks. These codes can be used to uniquely reference well known geographic feature at a particular point in time on earth. GID codes are made up of the following attributes:</p>
+    <p>GIDs are multipart topological albhabetic identifiers for major geographic features and landmarks. These codes can be used to uniquely reference well known geographic feature at a particular point in time on earth. GID codes are made up of the following attributes:</p>
     <pre>Time-Place-Name</pre>
 
     <p>GIDs are proposed to help eliminate ambiguity regarding named geographical features in computer databases, since proper names vary across languages, place and time. eg. The GID for the territory of Germany in the year 1940 would be <i>1940-DE</i>
@@ -77,7 +77,17 @@
         <li>...</li>
     </ul>
 
-    <h4>2.2.Metropolitan Regions</h4>
+   <h4>2.2.Natural Features</h4>
+    <p>Natural geographic features like rivers, lakes, mountain ranges, seas are referenced by a five letter identifier prefixed by the continental code</p>
+        <ul>
+            <li>A.GHIMA=The Himalaya Mountain Range</li>
+            <li>A.GHIMA.PEVER=Mount Everest Peak</li>
+            <li>A.GHIMA.GSHIV=Shivalik foothils of the Himalays</li>
+            <li>A.RGANG.RPADM=Padma distributary of the Ganges River</li>
+            <li>...</li>
+        </ul>
+        
+    <h4>2.3.Metropolitan Regions</h4>
     <p>Metro areas can be referenced by 3 letter IATA codes of the primary airport serving the area.</p>
         <ul>
             <li>JFK=New York City</li>
@@ -86,7 +96,7 @@
             <li>...</li>
         </ul>
         
-    <h4>2.3.Administrative Territories</h4>
+    <h4>2.4.Administrative Territories</h4>
     <p><a href="http://www.statoids.com/ihasc.html"><b>Hierarchical Administrative Subdivision Codes (HASC)</b></a> are used to reference well known administrative areas.</p>
     <ul>
         <li>AE=United Arab Emirates</li>
@@ -96,7 +106,7 @@
         <li>...</li>
     </ul>
         
-        <h4>2.4.Cities, Towns and other Urban Areas</h4>
+        <h4>2.5.Cities, Towns and other Urban Areas</h4>
     <p>Urban incorporated areas can be referenced by a nationally defined 3 letter code prefixed with the HASC.</p>
         <ul>
            <li>GB.LON=Boroughs of London, UK</li>
@@ -104,7 +114,7 @@
             <li>...</li>
         </ul>
         
-        <h4>2.5.Village, Hamlets andother Rural Areas</h4>
+        <h4>2.6.Village, Hamlets andother Rural Areas</h4>
     <p>Rural unincorporated areas can be referenced by a subnationally defined 4 letter code prefixed with the HASC.</p>
         <ul>
            <li>IN.HP.RKKR=Rakkar Village, Himachal Pradesh, India</li>
