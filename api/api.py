@@ -24,9 +24,13 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type', 'X-Requested-With'
 
 # API Index
-@app.route('/v1/', methods=['GET'])
-def api_root():
+@app.route('/', methods=['GET'])
+def api_index():
     return app.send_static_file('index.html')
+
+@app.route('/v1/', methods=['GET'])
+def api_v1():
+    return app.send_static_file('v1.html')
 
 
 @app.route('/v1/index/', methods=['GET'])

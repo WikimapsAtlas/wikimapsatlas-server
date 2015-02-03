@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Wikimaps Atlas API</title>
+    <style>
+        h1,
+        h2,
+        h3,
+        html {
+            font-family: sans-serif;
+        }
+        h1 {
+            color: #e31a41;
+            font-weight: normal;
+        }
+        h4,
+        h5 {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        function atlasRequest(options) {
+            atlasHttpRequest = new XMLHttpRequest();
+            atlasURL = "http://tools.wmflabs.org/wikiatlas2014/api/data";
+            atlasURL = "http://127.0.0.1:5000/v1/data";
+            atlasHttpRequest.open("POST", atlasURL, false);
+            atlasHttpRequest.setRequestHeader("Content-type", "application/json");
+            atlasHttpRequest.send(options);
+            console.log("Requesting Atlas for: " + options);
+            console.log(atlasHttpRequest.responseText);
+            atlasHttpRequest.abort();
+        }
+    </script>
+    
+    <h2>API</h2>
+    <h3>Methods</h3>
+    <h4>URL</h4>
+    <pre>http://tools.wmflabs.org/wikiatlas2014/api/data</pre>
+    <h4>Options</h4>
+    <ul>
+        <li> <a href="#" onclick=atlasRequest('{"gid":"*"}');><pre>{"gid":""}</pre></a> 
+            <a href="#" onclick=atlasRequest('{"gid":"IN"}');><pre>{"gid":"IN"}</pre></a> 
+            <a href="#" onclick=atlasRequest('{"gid":"IN.KL"}');><pre>{"gid":"IN.KL"}</pre>
+            </a>
+            <pre><em>string:</em> Heirachal multipart well known locations</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
+
+        <li> <a href="#" onclick=atlasRequest('{"gid":"*","level":"1"}');><pre>{"gid":"","level":"1"}</pre></a>
+           <a href="#" onclick=atlasRequest('{"gid":"IN","level":"0"}');><pre>{"gid":"IN","level":"0"}</pre></a>
+           <a href="#" onclick=atlasRequest('{"gid":"IN.KL","level":"1"}');><pre>{"gid":"IN.KL","level":"1"}</pre></a>
+            <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
+            Administrative level of boundaries</li>
+        <li> <a href="#" onclick=atlasRequest('{"layer":"bbox"}');><pre>{"layer":"bbox"}</pre></a> 
+            <pre><em>string:</em> admin(default)=Administrative boundaries, bbox=Bounding box index  </pre>
+            Data layer</li>
+        <li> <a href="#" onclick=atlasRequest('{"topology":"false"}');><pre>{"topology":"false"}</pre></a> 
+            <pre><em>boolean:</em> true(default)=topojson, false=geojson  </pre>
+            Json format</li>
+    </ul>
+
+    <h3>Json URLS</h3>
+    These return common geojson lists and shapes with simple urls
+    <ul>
+        <li> <a href="index"><pre>/world</pre></a> List countries of the world</li>
+        <li> <a href="index/IN"><pre>/world/HASC</pre></a> List administrative subunits within country</li>
+        <li> <a href="bbox/IN"><pre>/bbox/HASC</pre></a> Return bounding box of the area</li>
+        <li> <a href="center/IN"><pre>/center/HASC</pre></a> Return centroid of the area</li>
+        <li> <a href="near/IN"><pre>/near/HASC</pre></a> List neighbouring areas</li>
+    </ul>
+
+</body>
+
+</html>

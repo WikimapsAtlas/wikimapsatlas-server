@@ -24,39 +24,36 @@
 
 <body>
 
-    <script>
-        function atlasRequest(options) {
-            atlasHttpRequest = new XMLHttpRequest();
-            atlasURL = "http://tools.wmflabs.org/wikiatlas2014/api/data";
-            atlasURL = "http://127.0.0.1:5000/v1/data";
-            atlasHttpRequest.open("POST", atlasURL, false);
-            atlasHttpRequest.setRequestHeader("Content-type", "application/json");
-            atlasHttpRequest.send(options);
-            console.log("Requesting Atlas for: " + options);
-            console.log(atlasHttpRequest.responseText);
-            atlasHttpRequest.abort();
-        }
-    </script>
-    <!--
-    <h1>Wikimaps:Atlas API v0.15.1</h1>
+    <h1>Wikimaps:Atlas API <a href="v1">v1</a></h1>
     <h1>Query the world!</h1>
 
     <h2>About</h2>
     <p>The <a href="http://tools.wmflabs.org/wikiatlas2014/">Wikimaps Atlas</a> project is an open source wiki geo data engine to create data driven maps for the web. Ever wanted a simple API that can give you a json list of all the countries in the world, or the geojson shape of a province, or the major rivers in the world? This is it.</p>
 
-    <h2>Well Known Locations - WKL</h2>
-    <p>WKLs are multipart heirarchal albhabetic identifiers for major geographic features and landmarks. These codes can be used to uniquely reference well known geographic feature at a particular point in time on earth. WKL codes are made up of the following attributes:</p>
+    <h2>Geographic Feature ID - GID</h2>
+    <p>GIDs are multipart heirarchal albhabetic identifiers for major geographic features and landmarks. These codes can be used to uniquely reference well known geographic feature at a particular point in time on earth. GID codes are made up of the following attributes:</p>
     <pre>Time-Place-Name</pre>
 
-    <p>WKLs are proposed to help eliminate ambiguity regarding named geographical features in computer databases, since proper names vary across languages, place and time. eg. The WKL code for the territory of Germany in the year 1940 would be <i>1940-DE</i>
+    <p>GIDs are proposed to help eliminate ambiguity regarding named geographical features in computer databases, since proper names vary across languages, place and time. eg. The GID for the territory of Germany in the year 1940 would be <i>1940-DE</i>
     </p>
 
     <h3>1.Time</h3>
-    <p>Historical and future locations can be referenced by prefixing the WKL with a numerical datestamp in the format: <pre>Year.Month.Day.Hour</pre> If the temporal identifier is omitted, the system assumes you are referring to the present. The spatial codes</p>
+    <p>Historical and future locations can be referenced by prefixing the GID with a numerical datestamp in the format: <pre>Year.Month.Day.Hour</pre> If the temporal identifier is omitted, the system assumes you are referring to the present.</p>
+
+    <h4><i>Examples</i></h4>
+    <ul>
+        <li><i>blank</i>=Current time (default)</li>
+        <li>1920=Year 1920</li>
+        <li>1920.5=May 1920</li>
+        <li>1920.5.12.14=2PM 12 May 1920</li>
+        <li>b12=12 B.C.</li>
+        <li>e6=10^6 years ago</li>
+    </ul>
 
     <h3>2.Place</h3>
-    <p>Any place on earth can be described as being in a certain geographical region or an administrative unit.</p>
-    <h4>2.1.Regions</h4>
+    <p>Any place on earth can be described as being in a certain geographical region or an administrative unit. THe length of the GID codes is inversely proportional to the feature's size and importance.</p>
+
+    <h4>2.1.Continents and Subcontinents</h4>
     <p>Continental regions are represented using a single letter, and sub continents using two letters.</p>
     <ul>
         <li>*=World(default)</li>
@@ -79,20 +76,45 @@
         <li>I=Indian Ocean</li>
         <li>...</li>
     </ul>
-    <h4>2.2.Administrative</h4>
-    <p><a href="http://www.statoids.com/ihasc.html"><b>Hierarchical Administrative Subdivision Codes (HASC)</b></a> are used to reference well known administrative areas.
+
+    <h4>2.2.Metropolitan Regions</h4>
+    <p>Metro areas can be referenced by 3 letter IATA codes of the primary airport serving the area.</p>
         <ul>
-            <li>AE=United Arab Emirates</li>
-            <ul>
-                <li>AE.AD=Abu Dhabi</li>
-            </ul>
+            <li>JFK=New York City</li>
+            <li>LHR=London</li>
+            <li>DXB=Dubai</li>
+            <li>...</li>
+        </ul>
+        
+    <h4>2.3.Administrative Territories</h4>
+    <p><a href="http://www.statoids.com/ihasc.html"><b>Hierarchical Administrative Subdivision Codes (HASC)</b></a> are used to reference well known administrative areas.</p>
+    <ul>
+        <li>AE=United Arab Emirates</li>
+        <ul>
+            <li>AE.AD=Abu Dhabi</li>
+        </ul>
+        <li>...</li>
+    </ul>
+        
+        <h4>2.4.Cities, Towns and other Urban Areas</h4>
+    <p>Urban incorporated areas can be referenced by a nationally defined 3 letter code prefixed with the HASC.</p>
+        <ul>
+           <li>GB.LON=Boroughs of London, UK</li>
+            <li>US.NYC.QUE=Queen's Borough, New York City, USA</li>
+            <li>...</li>
+        </ul>
+        
+        <h4>2.5.Village, Hamlets andother Rural Areas</h4>
+    <p>Rural unincorporated areas can be referenced by a subnationally defined 4 letter code prefixed with the HASC.</p>
+        <ul>
+           <li>IN.HP.RKKR=Rakkar Village, Himachal Pradesh, India</li>
             <li>...</li>
         </ul>
 
         <h3>3.Name</h3>
-        <p>The common name of the geogarphical feature can be included in the WKL to reference a more specific feature that cannot be trageted with the temporal and spatial attributes. This is considered the least significant attribute and is ignored if a suitable feature match is not found.</p>
+        <p>The common name of the geogarphical feature can be included in the GID to reference a more specific feature that cannot be trageted with the temporal and spatial attributes. This is considered the least significant attribute and is ignored if a suitable feature match is not found.</p>
 
-        <h3><i>Examples</i></h3>
+        <h3><i>4.GID Examples</i></h3>
         <ul>
             <li>*=The world today(default)</li>
             <li>DE=Germany today</li>
@@ -118,48 +140,14 @@
             <li>name=Common name of the feature</li>
             <li>hasc=Hierarchical Administrative Subdivision Code of the administrative unit</li>
         </ul>
--->
 
-    <h2>API</h2>
-    <h3>Methods</h3>
-    <h4>URL</h4>
-    <pre>http://tools.wmflabs.org/wikiatlas2014/api/data</pre>
-    <h4>Options</h4>
-    <ul>
-        <li> <a href="#" onclick=atlasRequest('{"gid":"*"}');><pre>{"gid":""}</pre></a> 
-            <a href="#" onclick=atlasRequest('{"gid":"IN"}');><pre>{"gid":"IN"}</pre></a> 
-            <a href="#" onclick=atlasRequest('{"gid":"IN.KL"}');><pre>{"gid":"IN.KL"}</pre>
-            </a>
-            <pre><em>string:</em> Heirachal multipart well known locations</pre> Region or Hierarchical Administrative Subdivision Code of the territory</li>
-
-        <li> <a href="#" onclick=atlasRequest('{"gid":"*","level":"1"}');><pre>{"gid":"","level":"1"}</pre></a>
-           <a href="#" onclick=atlasRequest('{"gid":"IN","level":"0"}');><pre>{"gid":"IN","level":"0"}</pre></a>
-           <a href="#" onclick=atlasRequest('{"gid":"IN.KL","level":"1"}');><pre>{"gid":"IN.KL","level":"1"}</pre></a>
-            <pre><em>integer:</em> 0=Sovereign territory(default), 1=Level 1 administrative boundaries, 2=Level 2 administrative boundaries</pre>
-            Administrative level of boundaries</li>
-        <li> <a href="#" onclick=atlasRequest('{"layer":"bbox"}');><pre>{"layer":"bbox"}</pre></a> 
-            <pre><em>string:</em> admin(default)=Administrative boundaries, bbox=Bounding box index  </pre>
-            Data layer</li>
-        <li> <a href="#" onclick=atlasRequest('{"topology":"false"}');><pre>{"topology":"false"}</pre></a> 
-            <pre><em>boolean:</em> true(default)=topojson, false=geojson  </pre>
-            Json format</li>
-    </ul>
-
-    <h3>Json URLS</h3>
-    These return common geojson lists and shapes with simple urls
-    <ul>
-        <li> <a href="index"><pre>/world</pre></a> List countries of the world</li>
-        <li> <a href="index/IN"><pre>/world/HASC</pre></a> List administrative subunits within country</li>
-        <li> <a href="bbox/IN"><pre>/bbox/HASC</pre></a> Return bounding box of the area</li>
-        <li> <a href="center/IN"><pre>/center/HASC</pre></a> Return centroid of the area</li>
-        <li> <a href="near/IN"><pre>/near/HASC</pre></a> List neighbouring areas</li>
-    </ul>
-
-    <h3>Data Source</h3>
-    <ul>
-        <li>Administrative data is from <a href="http://www.naturalearthdata.com/">Natural Earth</a> with custom joins from the Wikimaps Atlas project (Public Domain)
-        </li>
-    </ul>
+        <h2>Output Format</h2>
+        <p>All outputs are valid JSON. Shape data is available in both GeoJSON or optimized TopoJSON formats.</p>
+        <h2>Data Source</h2>
+        <ul>
+            <li>Administrative data is from <a href="http://www.naturalearthdata.com/">Natural Earth</a> with custom joins from the Wikimaps Atlas project (Public Domain)
+            </li>
+        </ul>
 
 </body>
 
