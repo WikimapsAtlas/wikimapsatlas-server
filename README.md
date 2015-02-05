@@ -37,7 +37,7 @@ ln -s ../data/ make-modules/output
 npm install topojson
 ```
 
-# Deployment
+# Deployment on Tool Labs
 ## Creating python virtual environment
 virtualenv .
 source bin/activate'
@@ -78,9 +78,15 @@ database = "wikimaps_atlas"
 geometry = "geom"
 '''
 
-## Data config
+## Data folder config
 cd wikimapsatlas-server
 symlink data
+
+## Node Modules
+Add the wikimapsatlas-server/node_modules folder to ~/.profile
+```
+export PATH="$HOME/.rbenv/bin:/data/project/wikiatlas2014/wikimapsatlas-server/node_modules/topojson/bin:$PATH"
+```
 
 ## Updating server
 cd wikimapsatlas-server

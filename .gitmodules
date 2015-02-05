@@ -6,3 +6,7 @@
 [submodule "make-modules"]
 	path = make-modules
 	url = https://github.com/WikimapsAtlas/make-modules.git
+
+[submodule "node_modules"]
+	path = node_modules
+	url = https://github.com/WikimapsAtlas/node_modules.git
