@@ -4,7 +4,7 @@ import psycopg2
 import models
 
 # Wikiatlas Data Directory
-atlas_data_dir = "data/json/"
+atlas_data_dir = "../data/json/"
 
 class Gid:
     """ Well Known Location Code parser"""

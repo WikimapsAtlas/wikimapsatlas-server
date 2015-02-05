@@ -17,7 +17,7 @@ def hello():
         
 # configure Flask logging
 from logging import FileHandler
-logger = FileHandler('error.log')
+logger = FileHandler('error-atlas.log')
 app.logger.setLevel(logging.DEBUG)
 app.logger.addHandler(logger)
  
