@@ -12,6 +12,8 @@ from utils import psycopg2,psycopg_connect_atlas
 from models import Hasc
 from wikiatlas import Gid
 import json, utils
+import time
+import logging
 
 from flask import Flask, jsonify, make_response, Response, request
 from flask.ext.cors import CORS, cross_origin
@@ -76,10 +78,28 @@ def data():
     return G.json()
 #    return L.json(request.json['layer'], request.json['topology'])
 
+# configure Flask logging
+from logging import FileHandler
+logger = FileHandler('error.log')
+app.logger.setLevel(logging.INFO)
+app.logger.addHandler(logger)
+ 
+# log Flask events
+app.logger.debug(u"Flask server started " + time.asctime())
+@app.after_request
+def write_access_log(response):
+    app.logger.debug(u"%s %s -> %s" % (time.asctime(), request.path, response.status_code))
+    return response
+
+@app.errorhandler(500)
+def internal_error(exception):
+    app.logger.exception(exception)
+    return response
+        
 # 404 Error handler
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
