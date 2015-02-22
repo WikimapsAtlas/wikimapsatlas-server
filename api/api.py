@@ -99,6 +99,7 @@ def internal_error(exception):
 # 404 Error handler
 @app.errorhandler(404)
 def not_found(error):
+    app.logger.exception(error)
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
