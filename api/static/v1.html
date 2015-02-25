@@ -27,7 +27,7 @@
     <script>
         function atlasRequest(options) {
             atlasHttpRequest = new XMLHttpRequest();
-//            atlasURL = "http://tools.wmflabs.org/wikiatlas2014/api/data";
+//            atlasURL = "http://tools.wmflabs.org/wikiatlas2014/api/v1/data";
             atlasURL = "http://127.0.0.1:5000/v1/data";
             atlasHttpRequest.open("POST", atlasURL, false);
             atlasHttpRequest.setRequestHeader("Content-type", "application/json");
@@ -41,7 +41,7 @@
     <h2>API</h2>
     <h3>Methods</h3>
     <h4>URL</h4>
-    <pre>http://tools.wmflabs.org/wikiatlas2014/api/data</pre>
+    <pre>http://tools.wmflabs.org/wikiatlas2014/api/v1/data</pre>
     <h4>Options</h4>
     <ul>
         <li> <a href="#" onclick=atlasRequest('{"gid":"*"}');><pre>{"gid":""}</pre></a> 

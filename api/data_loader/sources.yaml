@@ -12,7 +12,7 @@ datasource:
   homepage: http://www.naturalearthdata.com/
   version: 2.0.0
   license: PD
-#  layer_config: naturalearth.yaml
+  layer_config: naturalearth.yaml
   download_url: http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
   dir: natural_earth_vector/
   srs: 4326
@@ -26,24 +26,24 @@ datasource:
 #  dir: osm/
 #  srs: 3857
 #    
-- name: OSM Land (Simplified)
-  homepage: http://openstreetmapdata.com/data/land-polygons
-  version: 2014-11-23
-  license: ODbL
-#  layer_config: osm_coastlines.yaml
-  download_url: http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
-  dir: osm/
-  srs: 3857
-  
-- name: ETOPO1 GLobal Relief
-  homepage: http://www.ngdc.noaa.gov/mgg/global/global.html
-  version: 2009
-  license: PD, NGDC/NOAA
-  layer_config: etopo1.yaml
-  download_url: http://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/ice_surface/grid_registered/georeferenced_tiff/ETOPO1_Ice_g_geotiff.zip
-  dir: noaa/
-  srs: 4326
-    
+#- name: OSM Land (Simplified)
+#  homepage: http://openstreetmapdata.com/data/land-polygons
+#  version: 2014-11-23
+#  license: ODbL
+##  layer_config: osm_coastlines.yaml
+#  download_url: http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
+#  dir: osm/
+#  srs: 3857
+#  
+#- name: ETOPO1 GLobal Relief
+#  homepage: http://www.ngdc.noaa.gov/mgg/global/global.html
+#  version: 2009
+#  license: PD, NGDC/NOAA
+#  layer_config: etopo1.yaml
+#  download_url: http://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/ice_surface/grid_registered/georeferenced_tiff/ETOPO1_Ice_g_geotiff.zip
+#  dir: noaa/
+#  srs: 4326
+#    
 #- name: Shuttle Radar Topographic Mission
 #  homepage: http://www.naturalearthdata.com/
 #  version: 2.0.0

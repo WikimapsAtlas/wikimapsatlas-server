@@ -28,7 +28,7 @@ Create symlinks for the data and output directories
 ```
 cd wikimapsatlas-server
 ln -s ../data/download make-modules/data
-ln -s ../data/ make-modules/output
+ln -s ../data/make-modules/output
 ```
 
 # Dependencies

@@ -169,7 +169,7 @@ class Datasource:
         query = "shp2pgsql -s {srs} -W LATIN1 -g geom {shapefile} {table} > temp.sql".format(srs=self.srs, shapefile=datafile, table=table)
         utils.bash(query)
         print "Sql schema generated"
-        sql2pgsql(open('temp.sql', 'r').read())
+        self.sql2pgsql(open('temp.sql', 'r').read())
         
         
     def raster2pgsql(self, datafile, table):

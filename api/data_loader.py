@@ -24,7 +24,7 @@ def load_sources():
         
         # If data dir does not exists, create a new database and the directory for the data sources
         if not os.path.exists(download_dir):
-#            create_atlas()
+            create_atlas()
             os.makedirs(download_dir)
         
         # Load shapefile layers into Atlas db using shp2pgsql

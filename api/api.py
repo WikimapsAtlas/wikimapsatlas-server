@@ -94,7 +94,6 @@ def write_access_log(response):
 @app.errorhandler(500)
 def internal_error(exception):
     app.logger.exception(exception)
-    return response
         
 # 404 Error handler
 @app.errorhandler(404)
